@@ -1,18 +1,42 @@
 package com.cloud.storage.client;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
+import javafx.fxml.Initializable;
+import javafx.scene.layout.VBox;
 
-public class Controller {
+import javax.swing.text.html.ListView;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable {
+
     @FXML
-    TextArea textArea;
+    VBox mainArea;
 
-    public void btnClickMeAction() {
-        System.out.println("Java");
+    @FXML
+    VBox loginArea;
+
+    @FXML
+    VBox remoteListArea;
+
+    @FXML
+    VBox transferBtnArea;
+
+
+    public void initialize(URL url, ResourceBundle rb) {
+        remoteListArea.setManaged(false);
+        remoteListArea.setVisible(false);
+        transferBtnArea.setVisible(false);
+        transferBtnArea.setManaged(false);
     }
 
-    public void btn2Click() {
-        textArea.appendText("Java\n");
+    public void btnConnectClick() {
+        loginArea.setManaged(false);
+        loginArea.setVisible(false);
+        remoteListArea.setManaged(true);
+        remoteListArea.setVisible(true);
+        transferBtnArea.setVisible(true);
+        transferBtnArea.setManaged(true);
     }
+
 }
