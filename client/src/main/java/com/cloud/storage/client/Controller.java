@@ -1,5 +1,6 @@
 package com.cloud.storage.client;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
@@ -22,12 +23,18 @@ public class Controller implements Initializable {
     @FXML
     VBox transferBtnArea;
 
+    @FXML
+    VBox localListArea;
+
 
     public void initialize(URL url, ResourceBundle rb) {
+        localListArea.setManaged(false);
+        localListArea.setVisible(false);
         remoteListArea.setManaged(false);
         remoteListArea.setVisible(false);
         transferBtnArea.setVisible(false);
         transferBtnArea.setManaged(false);
+
     }
 
     public void btnConnectClick() {
@@ -39,4 +46,9 @@ public class Controller implements Initializable {
         transferBtnArea.setManaged(true);
     }
 
+    public void btnChangeDirClick(ActionEvent actionEvent) {
+    }
+
+    public void btnChooseDirClick(ActionEvent actionEvent) {
+    }
 }
