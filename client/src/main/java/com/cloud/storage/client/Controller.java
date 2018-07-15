@@ -4,13 +4,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+
+    @FXML
+    ListView logAreaList;
 
     @FXML
     Button btnLogout;
@@ -57,14 +66,23 @@ public class Controller implements Initializable {
     }
 
     public void btnConnectClick() {
-        loginArea.setManaged(false);
-        loginArea.setVisible(false);
-        remoteListArea.setManaged(true);
-        remoteListArea.setVisible(true);
-        isConnected = true;
-        if (isLocalDirChoosed) {
-            transferBtnArea.setVisible(true);
-            transferBtnArea.setManaged(true);
+        try {
+            ConnectionHandler.getInstance().connect();
+            if (ConnectionHandler.getInstance().isConnected()) {
+                loginArea.setManaged(false);
+                loginArea.setVisible(false);
+                remoteListArea.setManaged(true);
+                remoteListArea.setVisible(true);
+                isConnected = true;
+                if (isLocalDirChoosed) {
+                    transferBtnArea.setVisible(true);
+                    transferBtnArea.setManaged(true);
+                }
+                writeToLogArea("connected to server");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            writeToLogArea(e.getMessage());
         }
     }
 
@@ -84,6 +102,9 @@ public class Controller implements Initializable {
     }
 
     public void btnLogoutClick(ActionEvent actionEvent) {
+        ConnectionHandler.getInstance().close();
+        writeToLogArea("initiating logout");
+        writeToLogArea("connection closed by user");
         isConnected = false;
         remoteListArea.setManaged(false);
         remoteListArea.setVisible(false);
@@ -91,5 +112,11 @@ public class Controller implements Initializable {
         transferBtnArea.setManaged(false);
         loginArea.setManaged(true);
         loginArea.setVisible(true);
+    }
+
+    public void writeToLogArea(String text) {
+        SimpleDateFormat format = new SimpleDateFormat("MM.dd.yyyy-HH:mm:ss");
+        logAreaList.getItems().add(format.format(Calendar.getInstance().getTime()) + " -> " + text);
+        logAreaList.scrollTo(logAreaList.getItems().size() - 1);
     }
 }
