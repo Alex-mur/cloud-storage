@@ -31,7 +31,9 @@ public class CloudServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new ObjectEncoder(), new ObjectDecoder(ClassResolvers.softCachingResolver(null)), new InboundObjectHandler());
+                            ch.pipeline().addLast(new ObjectEncoder(),
+                                    new ObjectDecoder(ClassResolvers.softCachingResolver(null)),
+                                    new InboundAuthHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
@@ -46,7 +48,7 @@ public class CloudServer {
 
 
     public static void main(String[] args) throws Exception {
-        new CloudServer(SettingsMgmt.port).run();
+        new CloudServer(SettingsMgmt.PORT).run();
 
     }
 }

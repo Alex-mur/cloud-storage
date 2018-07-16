@@ -92,7 +92,7 @@ public class Controller implements Initializable {
             ConnectionHandler.getInstance().connect();
             if (ConnectionHandler.getInstance().isConnected()) {
 
-                ConnectionHandler.getInstance().sendData(new CommandMessage("Client trying to connect"));
+                ConnectionHandler.getInstance().sendData(new CommandMessage("/auth blabla trulala"));
 
                 loginArea.setManaged(false);
                 loginArea.setVisible(false);
