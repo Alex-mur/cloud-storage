@@ -38,12 +38,12 @@
             </VBox>
 
             <VBox fx:id="transferBtnArea" alignment="CENTER">
-                <Button fx:id="sendBtn" alignment="CENTER" prefWidth="64.0" text="send→">
+                <Button fx:id="sendBtn" onAction="#btnSendClick" alignment="CENTER" prefWidth="64.0" text="send→">
                     <VBox.margin>
                         <Insets bottom="20.0" />
                     </VBox.margin>
                 </Button>
-                <Button fx:id="rexeiveBtn" alignment="CENTER" text="←receive" />
+                <Button fx:id="receiveBtn" onAction="#btnReceiveClick" alignment="CENTER" text="←receive" />
             <HBox.margin>
                <Insets left="10.0" right="10.0" />
             </HBox.margin>
@@ -89,7 +89,7 @@
                         </padding>
                     </HBox>
                 </VBox>
-                <VBox fx:id="remoteListArea" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                <VBox fx:id="remoteTableArea" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                     <HBox fx:id="remoteControlPanel" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                         <Button fx:id="btnLogout" onAction="#btnLogoutClick" text="Logout" />
                         <VBox.margin>

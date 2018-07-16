@@ -6,21 +6,30 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+
+
+    @FXML
+    Button receiveBtn;
+
+    @FXML
+    Button sendBtn;
 
     @FXML
     TableView remoteTable;
@@ -44,7 +53,7 @@ public class Controller implements Initializable {
     VBox loginArea;
 
     @FXML
-    VBox remoteListArea;
+    VBox remoteTableArea;
 
     @FXML
     VBox transferBtnArea;
@@ -66,8 +75,10 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         localTableArea.setManaged(false);
         localTableArea.setVisible(false);
-        remoteListArea.setManaged(false);
-        remoteListArea.setVisible(false);
+        localTableArea.setPrefWidth(mainArea.getWidth() * 0.45);
+        remoteTableArea.setManaged(false);
+        remoteTableArea.setVisible(false);
+        remoteTableArea.setPrefWidth(mainArea.getWidth() * 0.45);
         transferBtnArea.setVisible(false);
         transferBtnArea.setManaged(false);
         isConnected = false;
@@ -85,8 +96,8 @@ public class Controller implements Initializable {
 
                 loginArea.setManaged(false);
                 loginArea.setVisible(false);
-                remoteListArea.setManaged(true);
-                remoteListArea.setVisible(true);
+                remoteTableArea.setManaged(true);
+                remoteTableArea.setVisible(true);
                 isConnected = true;
                 if (isLocalDirChoosed) {
                     transferBtnArea.setVisible(true);
@@ -101,18 +112,30 @@ public class Controller implements Initializable {
     }
 
     public void btnChangeDirClick(ActionEvent actionEvent) {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Select local directory");
+        File selectedDirectory = chooser.showDialog(Main.primaryStage);
+        if(selectedDirectory != null) {
+            updateLocalTable(selectedDirectory);
+        }
     }
 
     public void btnChooseDirClick(ActionEvent actionEvent) {
-        isLocalDirChoosed = true;
-        chooseLocalDirArea.setManaged(false);
-        chooseLocalDirArea.setVisible(false);
-        localTableArea.setManaged(true);
-        localTableArea.setVisible(true);
-        updateLocalTable(new File("F:\\"));
-        if (isConnected) {
-            transferBtnArea.setVisible(true);
-            transferBtnArea.setManaged(true);
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Select local directory");
+        File selectedDirectory = chooser.showDialog(Main.primaryStage);
+
+        if(selectedDirectory != null) {
+            updateLocalTable(selectedDirectory);
+            isLocalDirChoosed = true;
+            chooseLocalDirArea.setManaged(false);
+            chooseLocalDirArea.setVisible(false);
+            localTableArea.setManaged(true);
+            localTableArea.setVisible(true);
+            if (isConnected) {
+                transferBtnArea.setVisible(true);
+                transferBtnArea.setManaged(true);
+            }
         }
     }
 
@@ -121,8 +144,8 @@ public class Controller implements Initializable {
         writeToLogArea("initiating logout");
         writeToLogArea("connection closed by user");
         isConnected = false;
-        remoteListArea.setManaged(false);
-        remoteListArea.setVisible(false);
+        remoteTableArea.setManaged(false);
+        remoteTableArea.setVisible(false);
         transferBtnArea.setVisible(false);
         transferBtnArea.setManaged(false);
         loginArea.setManaged(true);
@@ -138,11 +161,16 @@ public class Controller implements Initializable {
     public void initializeLocalFilesTable() {
         TableColumn<FileItem, String> tcName = new TableColumn<>("Name");
         tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tcName.maxWidthProperty().bind(localTable.widthProperty().multiply(0.65));
         tcName.prefWidthProperty().bind(localTable.widthProperty().multiply(0.65));
+        tcName.setResizable(false);
 
         TableColumn<FileItem, Long> tcSize = new TableColumn<>("Size (KB)");
         tcSize.setCellValueFactory(new PropertyValueFactory<>("size"));
+        tcSize.maxWidthProperty().bind(localTable.widthProperty().multiply(0.35));
         tcSize.prefWidthProperty().bind(localTable.widthProperty().multiply(0.35));
+        tcSize.setResizable(false);
+
 
         localTable.getColumns().addAll(tcName, tcSize);
     }
@@ -151,15 +179,20 @@ public class Controller implements Initializable {
         TableColumn<FileItem, String> tcName = new TableColumn<>("Name");
         tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcName.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.65));
+        tcName.maxWidthProperty().bind(remoteTable.widthProperty().multiply(0.65));
+        tcName.setResizable(false);
 
         TableColumn<FileItem, Long> tcSize = new TableColumn<>("Size (KB)");
         tcSize.setCellValueFactory(new PropertyValueFactory<>("size"));
         tcSize.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.35));
+        tcSize.maxWidthProperty().bind(remoteTable.widthProperty().multiply(0.35));
+        tcSize.setResizable(false);
 
         remoteTable.getColumns().addAll(tcName, tcSize);
     }
 
     public void updateLocalTable(File folder) {
+        localTable.getItems().removeAll();
         File[] files = folder.listFiles(pathname -> pathname.isFile());
         localFileList = FXCollections.observableArrayList();
 
@@ -171,7 +204,14 @@ public class Controller implements Initializable {
     }
 
     public void sendFile(File file) {
-
+        writeToLogArea("demo sending file:  " + file.getAbsolutePath());
     }
 
+    public void btnSendClick(ActionEvent actionEvent) {
+        FileItem fileItem = (FileItem) localTable.getSelectionModel().getSelectedItem();
+        sendFile(new File(fileItem.getPath()));
+    }
+
+    public void btnReceiveClick(ActionEvent actionEvent) {
+    }
 }
