@@ -205,6 +205,11 @@ public class Controller implements Initializable {
 
     public void sendFile(File file) {
         writeToLogArea("demo sending file:  " + file.getAbsolutePath());
+        try {
+            ConnectionHandler.getInstance().sendData(new CommandMessage("demo sending file:  " + file.getAbsolutePath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnSendClick(ActionEvent actionEvent) {
