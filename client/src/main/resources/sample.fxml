@@ -96,8 +96,8 @@
                             <Insets top="10.0" />
                         </VBox.margin>
                     </HBox>
-                    <ListView HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
-                    </ListView>
+                    <TableView fx:id="remoteTable" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    </TableView>
                 </VBox>
             </VBox>
         </HBox>

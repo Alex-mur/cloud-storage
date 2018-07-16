@@ -1,23 +1,32 @@
 package com.cloud.storage.client;
 
 import com.cloud.storage.common.CommandMessage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+
+    @FXML
+    TableView remoteTable;
+
+    @FXML
+    TableView localTable;
 
     @FXML
     ListView logAreaList;
@@ -52,7 +61,7 @@ public class Controller implements Initializable {
 
     private boolean isConnected;
     private boolean isLocalDirChoosed;
-
+    ObservableList<FileItem> localFileList;
 
     public void initialize(URL url, ResourceBundle rb) {
         localTableArea.setManaged(false);
@@ -63,6 +72,7 @@ public class Controller implements Initializable {
         transferBtnArea.setManaged(false);
         isConnected = false;
         isLocalDirChoosed =false;
+        initializeLocalFilesTable();
         pBar.prefWidthProperty().bind(logArea.widthProperty());
     }
 
@@ -99,6 +109,7 @@ public class Controller implements Initializable {
         chooseLocalDirArea.setVisible(false);
         localTableArea.setManaged(true);
         localTableArea.setVisible(true);
+        updateLocalTable(new File("F:\\"));
         if (isConnected) {
             transferBtnArea.setVisible(true);
             transferBtnArea.setManaged(true);
@@ -124,6 +135,43 @@ public class Controller implements Initializable {
         logAreaList.scrollTo(logAreaList.getItems().size() - 1);
     }
 
+    public void initializeLocalFilesTable() {
+        TableColumn<FileItem, String> tcName = new TableColumn<>("Name");
+        tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tcName.prefWidthProperty().bind(localTable.widthProperty().multiply(0.65));
 
+        TableColumn<FileItem, Long> tcSize = new TableColumn<>("Size (KB)");
+        tcSize.setCellValueFactory(new PropertyValueFactory<>("size"));
+        tcSize.prefWidthProperty().bind(localTable.widthProperty().multiply(0.35));
+
+        localTable.getColumns().addAll(tcName, tcSize);
+    }
+
+    public void initializeRemoteFilesTable() {
+        TableColumn<FileItem, String> tcName = new TableColumn<>("Name");
+        tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tcName.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.65));
+
+        TableColumn<FileItem, Long> tcSize = new TableColumn<>("Size (KB)");
+        tcSize.setCellValueFactory(new PropertyValueFactory<>("size"));
+        tcSize.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.35));
+
+        remoteTable.getColumns().addAll(tcName, tcSize);
+    }
+
+    public void updateLocalTable(File folder) {
+        File[] files = folder.listFiles(pathname -> pathname.isFile());
+        localFileList = FXCollections.observableArrayList();
+
+        for(int i = 0; i < files.length; i++) {
+            localFileList.add(new FileItem(files[i].getName(), files[i].length() / 1024, files[i].getAbsolutePath()));
+        }
+
+        localTable.setItems(localFileList);
+    }
+
+    public void sendFile(File file) {
+
+    }
 
 }
