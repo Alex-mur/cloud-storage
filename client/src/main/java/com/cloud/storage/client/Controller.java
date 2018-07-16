@@ -1,5 +1,6 @@
 package com.cloud.storage.client;
 
+import com.cloud.storage.common.CommandMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,7 +41,7 @@ public class Controller implements Initializable {
     VBox transferBtnArea;
 
     @FXML
-    VBox localListArea;
+    VBox localTableArea;
 
     @FXML
     ProgressBar pBar;
@@ -54,8 +55,8 @@ public class Controller implements Initializable {
 
 
     public void initialize(URL url, ResourceBundle rb) {
-        localListArea.setManaged(false);
-        localListArea.setVisible(false);
+        localTableArea.setManaged(false);
+        localTableArea.setVisible(false);
         remoteListArea.setManaged(false);
         remoteListArea.setVisible(false);
         transferBtnArea.setVisible(false);
@@ -69,6 +70,9 @@ public class Controller implements Initializable {
         try {
             ConnectionHandler.getInstance().connect();
             if (ConnectionHandler.getInstance().isConnected()) {
+
+                ConnectionHandler.getInstance().sendData(new CommandMessage("Client trying to connect"));
+
                 loginArea.setManaged(false);
                 loginArea.setVisible(false);
                 remoteListArea.setManaged(true);
@@ -93,8 +97,8 @@ public class Controller implements Initializable {
         isLocalDirChoosed = true;
         chooseLocalDirArea.setManaged(false);
         chooseLocalDirArea.setVisible(false);
-        localListArea.setManaged(true);
-        localListArea.setVisible(true);
+        localTableArea.setManaged(true);
+        localTableArea.setVisible(true);
         if (isConnected) {
             transferBtnArea.setVisible(true);
             transferBtnArea.setManaged(true);
@@ -119,4 +123,7 @@ public class Controller implements Initializable {
         logAreaList.getItems().add(format.format(Calendar.getInstance().getTime()) + " -> " + text);
         logAreaList.scrollTo(logAreaList.getItems().size() - 1);
     }
+
+
+
 }

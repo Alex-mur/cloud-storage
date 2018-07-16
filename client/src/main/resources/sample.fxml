@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.TableView?>
+<?import com.sun.javafx.scene.control.skin.TableHeaderRow?>
 <VBox alignment="center" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cloud.storage.client.Controller">
     <VBox fx:id="mainArea" VBox.vgrow="ALWAYS">
         <HBox HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
@@ -23,15 +25,15 @@
                 <HBox fx:id="chooseLocalDirArea" alignment="CENTER" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                     <Button fx:id="btnChooseLocalDir" onAction="#btnChooseDirClick" text="Choose local directory" />
                 </HBox>
-                <VBox fx:id="localListArea" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                <VBox fx:id="localTableArea" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                     <HBox fx:id="localControlPanel" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                         <Button fx:id="btnChangeLocalDir" onAction="#btnChangeDirClick" text="Browse..." />
                         <VBox.margin>
                             <Insets top="10.0" />
                         </VBox.margin>
                     </HBox>
-                    <ListView HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
-                    </ListView>
+                    <TableView fx:id="localTable" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    </TableView>
                 </VBox>
             </VBox>
 
