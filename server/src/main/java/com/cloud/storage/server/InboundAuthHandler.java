@@ -17,21 +17,28 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if(isClientAuthorized) {
             ctx.fireChannelRead(msg);
+            System.out.println(((CommandMessage) msg).getLogin() + " " + ((CommandMessage) msg).getPassword());
             return;
 
         } else {
             if (msg instanceof CommandMessage) {
                 String command = ((CommandMessage) msg).getCommand();
-                if (command.startsWith("/auth")) {
-                    String login = command.split("\\s")[1];
-                    String password = command.split("\\s")[2];
-                    isClientAuthorized = true;
-                    ctx.pipeline().addLast(new InboundObjectHandler());
-                    System.out.println("client authorized");
+                if(command.equals(CommandMessage.AUTH_REQUEST)) {
+                    if(checkAuth(((CommandMessage) msg).getLogin(), ((CommandMessage) msg).getPassword())) {
+                        isClientAuthorized = true;
+                        ctx.pipeline().addLast(new InboundObjectHandler());
+                        ctx.write(new CommandMessage(CommandMessage.AUTH_CONFIRM));
+                        System.out.println("client authorized with: " + ((CommandMessage) msg).getLogin() + " " + ((CommandMessage) msg).getPassword());
+                    } else {
+                        System.out.println("bad login password");
+                        ctx.write(new CommandMessage(CommandMessage.AUTH_DECLINE));
+                    }
+                } else {
+                    System.out.println("message not a request");
+                    ctx.flush();
                 }
             } else {
-                System.out.println("not_authorized_bad_data");
-                ctx.write(new CommandMessage("/msg not_authorized_bad_data"));
+                System.out.println("object not a message");
                 ctx.flush();
             }
         }
@@ -42,5 +49,9 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
         cause.printStackTrace();
         //ctx.flush();
         ctx.close();
+    }
+
+    private boolean checkAuth(String login, String password) {
+        return login.equals("user") && password.equals("123");
     }
 }

@@ -1,19 +1,17 @@
 package com.cloud.storage.client;
 
 import com.cloud.storage.common.CommandMessage;
+import com.cloud.storage.common.FileMessage;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,48 +23,22 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
 
-    @FXML
-    Button receiveBtn;
-
-    @FXML
-    Button sendBtn;
-
-    @FXML
-    TableView remoteTable;
-
-    @FXML
-    TableView localTable;
-
-    @FXML
-    ListView logAreaList;
-
-    @FXML
-    Button btnLogout;
-
-    @FXML
-    HBox chooseLocalDirArea;
-
-    @FXML
-    VBox mainArea;
-
-    @FXML
-    VBox loginArea;
-
-    @FXML
-    VBox remoteTableArea;
-
-    @FXML
-    VBox transferBtnArea;
-
-    @FXML
-    VBox localTableArea;
-
-    @FXML
-    ProgressBar pBar;
-
-    @FXML
-    VBox logArea;
-
+    public TextField fieldLogin;
+    public PasswordField fieldPassword;
+    public Button receiveBtn;
+    public Button sendBtn;
+    public TableView remoteTable;
+    public TableView localTable;
+    public ListView logAreaList;
+    public Button btnLogout;
+    public HBox chooseLocalDirArea;
+    public VBox mainArea;
+    public VBox loginArea;
+    public VBox remoteTableArea;
+    public VBox transferBtnArea;
+    public VBox localTableArea;
+    public ProgressBar pBar;
+    public VBox logArea;
 
     private boolean isConnected;
     private boolean isLocalDirChoosed;
@@ -82,33 +54,101 @@ public class Controller implements Initializable {
         transferBtnArea.setVisible(false);
         transferBtnArea.setManaged(false);
         isConnected = false;
-        isLocalDirChoosed =false;
-        initializeLocalFilesTable();
+        isLocalDirChoosed = false;
+        initLocalFilesTable();
+        initRemoteFilesTable();
         pBar.prefWidthProperty().bind(logArea.widthProperty());
     }
 
     public void btnConnectClick() {
         try {
             ConnectionHandler.getInstance().connect();
-            if (ConnectionHandler.getInstance().isConnected()) {
-
-                ConnectionHandler.getInstance().sendData(new CommandMessage("/auth blabla trulala"));
-
-                loginArea.setManaged(false);
-                loginArea.setVisible(false);
-                remoteTableArea.setManaged(true);
-                remoteTableArea.setVisible(true);
-                isConnected = true;
-                if (isLocalDirChoosed) {
-                    transferBtnArea.setVisible(true);
-                    transferBtnArea.setManaged(true);
-                }
-                writeToLogArea("connected to server");
+            if(ConnectionHandler.getInstance().isConnected()) {
+                startConnectionListener();
+                ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.AUTH_REQUEST, fieldLogin.getText(), fieldPassword.getText()));
             }
+
         } catch (IOException e) {
             e.printStackTrace();
             writeToLogArea(e.getMessage());
         }
+
+    }
+
+    public void startConnectionListener() {
+        new Thread(() -> {
+            try {
+                while(true) {
+                    Object msg = ConnectionHandler.getInstance().readData();
+                    if(msg instanceof CommandMessage) {
+                        String command = ((CommandMessage) msg).getCommand();
+                        if(command.equals(CommandMessage.AUTH_CONFIRM)) {
+                            isConnected = true;
+                            Platform.runLater(() -> {
+                                writeToLogArea("connected to server OK");
+                                initRemoteArea();
+                            });
+
+                            break;
+                        }
+
+                        if (command.equals(CommandMessage.AUTH_DECLINE)) {
+                            Platform.runLater(() -> {
+                                writeToLogArea("authorization declined. wrong login or password?");
+                            });
+                        }
+                    }
+                }
+
+                while (true) {
+                    Object msg = ConnectionHandler.getInstance().readData();
+
+                    if(msg instanceof CommandMessage) {
+                        String command = ((CommandMessage) msg).getCommand();
+
+                        if(command.equals(CommandMessage.DISCONNECT)){
+                            Platform.runLater(() -> writeToLogArea("received disconnect command from server"));
+                            break;
+                        }
+
+                    } else if(msg instanceof FileMessage) {
+
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Platform.runLater(() -> writeToLogArea(e.getMessage()));
+
+            } finally {
+                ConnectionHandler.getInstance().close();
+                Platform.runLater(() -> {
+                    writeToLogArea("connection closed");
+                    hideRemoteArea();
+                });
+            }
+        }).start();
+    }
+
+
+    public void initRemoteArea() {
+        loginArea.setManaged(false);
+        loginArea.setVisible(false);
+        remoteTableArea.setManaged(true);
+        remoteTableArea.setVisible(true);
+        if (isLocalDirChoosed) {
+            transferBtnArea.setVisible(true);
+            transferBtnArea.setManaged(true);
+        }
+    }
+
+    public void hideRemoteArea() {
+        remoteTableArea.setManaged(false);
+        remoteTableArea.setVisible(false);
+        transferBtnArea.setVisible(false);
+        transferBtnArea.setManaged(false);
+        loginArea.setManaged(true);
+        loginArea.setVisible(true);
     }
 
     public void btnChangeDirClick(ActionEvent actionEvent) {
@@ -141,15 +181,10 @@ public class Controller implements Initializable {
 
     public void btnLogoutClick(ActionEvent actionEvent) {
         ConnectionHandler.getInstance().close();
+        isConnected = false;
         writeToLogArea("initiating logout");
         writeToLogArea("connection closed by user");
-        isConnected = false;
-        remoteTableArea.setManaged(false);
-        remoteTableArea.setVisible(false);
-        transferBtnArea.setVisible(false);
-        transferBtnArea.setManaged(false);
-        loginArea.setManaged(true);
-        loginArea.setVisible(true);
+        hideRemoteArea();
     }
 
     public void writeToLogArea(String text) {
@@ -158,7 +193,7 @@ public class Controller implements Initializable {
         logAreaList.scrollTo(logAreaList.getItems().size() - 1);
     }
 
-    public void initializeLocalFilesTable() {
+    public void initLocalFilesTable() {
         TableColumn<FileItem, String> tcName = new TableColumn<>("Name");
         tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcName.maxWidthProperty().bind(localTable.widthProperty().multiply(0.65));
@@ -171,21 +206,20 @@ public class Controller implements Initializable {
         tcSize.prefWidthProperty().bind(localTable.widthProperty().multiply(0.35));
         tcSize.setResizable(false);
 
-
         localTable.getColumns().addAll(tcName, tcSize);
     }
 
-    public void initializeRemoteFilesTable() {
+    public void initRemoteFilesTable() {
         TableColumn<FileItem, String> tcName = new TableColumn<>("Name");
         tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tcName.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.65));
         tcName.maxWidthProperty().bind(remoteTable.widthProperty().multiply(0.65));
+        tcName.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.65));
         tcName.setResizable(false);
 
         TableColumn<FileItem, Long> tcSize = new TableColumn<>("Size (KB)");
         tcSize.setCellValueFactory(new PropertyValueFactory<>("size"));
-        tcSize.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.35));
         tcSize.maxWidthProperty().bind(remoteTable.widthProperty().multiply(0.35));
+        tcSize.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.35));
         tcSize.setResizable(false);
 
         remoteTable.getColumns().addAll(tcName, tcSize);
