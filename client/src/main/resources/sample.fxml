@@ -5,12 +5,12 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.TableView?>
 <VBox alignment="center" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cloud.storage.client.Controller">
     <VBox fx:id="mainArea" VBox.vgrow="ALWAYS">
         <HBox HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
@@ -37,12 +37,12 @@
             </VBox>
 
             <VBox fx:id="transferBtnArea" alignment="CENTER">
-                <Button fx:id="sendBtn" onAction="#btnSendClick" alignment="CENTER" prefWidth="64.0" text="send→">
+                <Button fx:id="sendBtn" alignment="CENTER" onAction="#btnSendClick" prefWidth="64.0" text="send→">
                     <VBox.margin>
                         <Insets bottom="20.0" />
                     </VBox.margin>
                 </Button>
-                <Button fx:id="receiveBtn" onAction="#btnReceiveClick" alignment="CENTER" text="←receive" />
+                <Button fx:id="receiveBtn" alignment="CENTER" onAction="#btnReceiveClick" text="←receive" />
             <HBox.margin>
                <Insets left="10.0" right="10.0" />
             </HBox.margin>
@@ -83,6 +83,16 @@
 
                     <HBox alignment="CENTER">
                         <Button fx:id="btnConnect" alignment="CENTER" onAction="#btnConnectClick" text="Connect to server" HBox.hgrow="ALWAYS" />
+                        <padding>
+                            <Insets left="65.0" />
+                        </padding>
+                    </HBox>
+
+                    <HBox alignment="CENTER">
+                        <Button fx:id="btnRegister" alignment="CENTER" onAction="#btnRegisterClick" text="Registration" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin></Button>
                         <padding>
                             <Insets left="65.0" />
                         </padding>

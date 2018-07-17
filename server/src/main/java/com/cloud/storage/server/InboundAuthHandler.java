@@ -1,8 +1,11 @@
 package com.cloud.storage.server;
 
 import com.cloud.storage.common.CommandMessage;
+import com.sun.xml.internal.ws.developer.MemberSubmissionEndpointReference;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+
+import java.io.File;
 
 public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
 
@@ -15,7 +18,7 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        if(isClientAuthorized) {
+        if (isClientAuthorized) {
             ctx.fireChannelRead(msg);
             return;
 
@@ -23,8 +26,8 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
             if (msg instanceof CommandMessage) {
                 String command = ((CommandMessage) msg).getCommand();
 
-                if(command.equals(CommandMessage.AUTH_REQUEST)) {
-                    if(checkAuth(((CommandMessage) msg).getLogin(), ((CommandMessage) msg).getPassword())) {
+                if (command.equals(CommandMessage.AUTH_REQUEST)) {
+                    if (checkAuth(((CommandMessage) msg).getLogin(), ((CommandMessage) msg).getPassword())) {
                         isClientAuthorized = true;
                         ctx.pipeline().addLast(new InboundObjectHandler());
                         ctx.write(new CommandMessage(CommandMessage.AUTH_CONFIRM));
@@ -35,9 +38,12 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
                         ctx.write(new CommandMessage(CommandMessage.AUTH_DECLINE));
                         ctx.flush();
                     }
-                } else {
-                    System.out.println("message not a request");
-                    ctx.flush();
+                } else if (command.equals(CommandMessage.REGISTER_NEW_USER)) {
+                    if (tryToRegisterUser(((CommandMessage) msg).getLogin(), ((CommandMessage) msg).getPassword())) {
+                        ctx.fireChannelRead(msg);
+                        ctx.write(new CommandMessage(CommandMessage.REGISTER_RESULT, "New user with login " + ((CommandMessage) msg).getLogin() + " successfully registered!"));
+                        ctx.flush();
+                    }
                 }
             } else {
                 System.out.println("object not a message");
@@ -52,7 +58,18 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
         ctx.close();
     }
 
+    private boolean tryToRegisterUser(String login, String password) {
+        String userDirPath = SettingsMgmt.ROOT_FOLDER + login;
+
+        if (SQLHandler.tryToRegister(login, password, userDirPath)) {
+            if (new File(userDirPath).mkdir()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean checkAuth(String login, String password) {
-        return login.equals("user") && password.equals("123");
+        return (SQLHandler.getUserFolderByLoginAndPassword(login, password) != null);
     }
 }

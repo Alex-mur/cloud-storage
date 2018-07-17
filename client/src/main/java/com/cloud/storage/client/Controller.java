@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-
     public TextField fieldLogin;
     public PasswordField fieldPassword;
     public Button receiveBtn;
@@ -62,11 +61,13 @@ public class Controller implements Initializable {
 
     public void btnConnectClick() {
         try {
-            ConnectionHandler.getInstance().connect();
-            if(ConnectionHandler.getInstance().isConnected()) {
-                startConnectionListener();
-                ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.AUTH_REQUEST, fieldLogin.getText(), fieldPassword.getText()));
-            }
+            if (fieldLogin.getText().length() != 0 && fieldPassword.getText().length() != 0) {
+                ConnectionHandler.getInstance().connect();
+                    if (ConnectionHandler.getInstance().isConnected()) {
+                        startConnectionListener();
+                        ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.AUTH_REQUEST, fieldLogin.getText(), fieldPassword.getText()));
+                }
+            } else  writeToLogArea("Login or password cannot be empty!!!");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,16 +76,32 @@ public class Controller implements Initializable {
 
     }
 
+    public void btnRegisterClick() {
+        try {
+            if (fieldLogin.getText().length() != 0 && fieldPassword.getText().length() != 0) {
+                ConnectionHandler.getInstance().connect();
+                if (ConnectionHandler.getInstance().isConnected()) {
+                    startConnectionListener();
+                    ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.REGISTER_NEW_USER, fieldLogin.getText(), fieldPassword.getText()));
+                }
+            } else  writeToLogArea("Login or password cannot be empty!!!");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            writeToLogArea(e.getMessage());
+        }
+    }
+
     public void startConnectionListener() {
         new Thread(() -> {
             try {
                 while(true) {
                     Object msg = ConnectionHandler.getInstance().readData();
 
-                    if(msg instanceof CommandMessage) {
+                    if (msg instanceof CommandMessage) {
                         String command = ((CommandMessage) msg).getCommand();
 
-                        if(command.equals(CommandMessage.AUTH_CONFIRM)) {
+                        if (command.equals(CommandMessage.AUTH_CONFIRM)) {
                             isConnected = true;
                             Platform.runLater(() -> {
                                 writeToLogArea("Connected to server OK");
@@ -106,10 +123,10 @@ public class Controller implements Initializable {
                 while (true) {
                     Object msg = ConnectionHandler.getInstance().readData();
 
-                    if(msg instanceof CommandMessage) {
+                    if (msg instanceof CommandMessage) {
                         String command = ((CommandMessage) msg).getCommand();
 
-                        if(command.equals(CommandMessage.DISCONNECT)){
+                        if (command.equals(CommandMessage.DISCONNECT)){
                             Platform.runLater(() -> writeToLogArea("Received disconnect command from server"));
                             break;
                         }
@@ -155,21 +172,21 @@ public class Controller implements Initializable {
         loginArea.setVisible(true);
     }
 
-    public void btnChangeDirClick(ActionEvent actionEvent) {
+    public void btnChangeDirClick() {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Select local directory");
         File selectedDirectory = chooser.showDialog(Main.primaryStage);
-        if(selectedDirectory != null) {
+        if (selectedDirectory != null) {
             updateLocalTable(selectedDirectory);
         }
     }
 
-    public void btnChooseDirClick(ActionEvent actionEvent) {
+    public void btnChooseDirClick() {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Select local directory");
         File selectedDirectory = chooser.showDialog(Main.primaryStage);
 
-        if(selectedDirectory != null) {
+        if (selectedDirectory != null) {
             updateLocalTable(selectedDirectory);
             isLocalDirChoosed = true;
             chooseLocalDirArea.setManaged(false);
@@ -183,7 +200,7 @@ public class Controller implements Initializable {
         }
     }
 
-    public void btnLogoutClick(ActionEvent actionEvent) {
+    public void btnLogoutClick() {
         ConnectionHandler.getInstance().close();
         isConnected = false;
         writeToLogArea("initiating logout");
@@ -250,11 +267,13 @@ public class Controller implements Initializable {
         }
     }
 
-    public void btnSendClick(ActionEvent actionEvent) {
+    public void btnSendClick() {
         FileItem fileItem = (FileItem) localTable.getSelectionModel().getSelectedItem();
         sendFile(new File(fileItem.getPath()));
     }
 
-    public void btnReceiveClick(ActionEvent actionEvent) {
+    public void btnReceiveClick() {
     }
+
+
 }

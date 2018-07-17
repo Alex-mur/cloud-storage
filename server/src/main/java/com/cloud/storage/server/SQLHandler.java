@@ -9,7 +9,7 @@ public class SQLHandler {
     public static void connect() {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:database.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:usersDB.db");
             stmt = connection.createStatement();
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,7 +40,7 @@ public class SQLHandler {
 
     public static boolean tryToRegister(String login, String password, String userDirPath) {
         try {
-            stmt.executeUpdate(String.format("INSERT INTO users (login, password, userDirPath) VALUES ('%s', '%s'. '%s');", login, password, userDirPath));
+            stmt.executeUpdate(String.format("INSERT INTO users (login, password, userDirPath) VALUES ('%s', '%s', '%s');", login, password, userDirPath));
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

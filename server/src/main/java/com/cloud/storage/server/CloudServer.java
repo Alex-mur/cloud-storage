@@ -48,7 +48,7 @@ public class CloudServer {
 
 
     public static void main(String[] args) throws Exception {
+        SQLHandler.connect();
         new CloudServer(SettingsMgmt.PORT).run();
-
     }
 }
