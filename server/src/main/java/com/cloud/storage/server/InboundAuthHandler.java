@@ -28,10 +28,12 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
                         isClientAuthorized = true;
                         ctx.pipeline().addLast(new InboundObjectHandler());
                         ctx.write(new CommandMessage(CommandMessage.AUTH_CONFIRM));
+                        ctx.flush();
                         System.out.println("client authorized with: " + ((CommandMessage) msg).getLogin() + " " + ((CommandMessage) msg).getPassword());
                     } else {
                         System.out.println("bad login password");
-                        ctx.write(new CommandMessage(CommandMessage.AUTH_CONFIRM));
+                        ctx.write(new CommandMessage(CommandMessage.AUTH_DECLINE));
+                        ctx.flush();
                     }
                 } else {
                     System.out.println("message not a request");

@@ -80,23 +80,23 @@ public class Controller implements Initializable {
             try {
                 while(true) {
                     Object msg = ConnectionHandler.getInstance().readData();
+
                     if(msg instanceof CommandMessage) {
                         String command = ((CommandMessage) msg).getCommand();
-                        Platform.runLater(() -> writeToLogArea(command));
-
-                        if (command.equals(CommandMessage.AUTH_DECLINE)) {
-                            System.out.println("bad password");
-                            Platform.runLater(() ->
-                                    writeToLogArea("authorization declined. wrong login or password?"));
-                        }
 
                         if(command.equals(CommandMessage.AUTH_CONFIRM)) {
                             isConnected = true;
                             Platform.runLater(() -> {
-                                writeToLogArea("connected to server OK");
+                                writeToLogArea("Connected to server OK");
                                 initRemoteArea();
                             });
                             break;
+                        }
+
+                        if (command.equals(CommandMessage.AUTH_DECLINE)) {
+                            System.out.println("Bad password");
+                            Platform.runLater(() ->
+                                    writeToLogArea("Authorization declined by server. Wrong login or password?"));
                         }
 
 
@@ -110,7 +110,7 @@ public class Controller implements Initializable {
                         String command = ((CommandMessage) msg).getCommand();
 
                         if(command.equals(CommandMessage.DISCONNECT)){
-                            Platform.runLater(() -> writeToLogArea("received disconnect command from server"));
+                            Platform.runLater(() -> writeToLogArea("Received disconnect command from server"));
                             break;
                         }
 
