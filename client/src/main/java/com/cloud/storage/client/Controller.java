@@ -82,21 +82,24 @@ public class Controller implements Initializable {
                     Object msg = ConnectionHandler.getInstance().readData();
                     if(msg instanceof CommandMessage) {
                         String command = ((CommandMessage) msg).getCommand();
+                        Platform.runLater(() -> writeToLogArea(command));
+
+                        if (command.equals(CommandMessage.AUTH_DECLINE)) {
+                            System.out.println("bad password");
+                            Platform.runLater(() ->
+                                    writeToLogArea("authorization declined. wrong login or password?"));
+                        }
+
                         if(command.equals(CommandMessage.AUTH_CONFIRM)) {
                             isConnected = true;
                             Platform.runLater(() -> {
                                 writeToLogArea("connected to server OK");
                                 initRemoteArea();
                             });
-
                             break;
                         }
 
-                        if (command.equals(CommandMessage.AUTH_DECLINE)) {
-                            Platform.runLater(() -> {
-                                writeToLogArea("authorization declined. wrong login or password?");
-                            });
-                        }
+
                     }
                 }
 
@@ -130,12 +133,13 @@ public class Controller implements Initializable {
         }).start();
     }
 
-
     public void initRemoteArea() {
         loginArea.setManaged(false);
         loginArea.setVisible(false);
         remoteTableArea.setManaged(true);
         remoteTableArea.setVisible(true);
+        fieldLogin.clear();
+        fieldPassword.clear();
         if (isLocalDirChoosed) {
             transferBtnArea.setVisible(true);
             transferBtnArea.setManaged(true);

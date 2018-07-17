@@ -17,12 +17,12 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if(isClientAuthorized) {
             ctx.fireChannelRead(msg);
-            System.out.println(((CommandMessage) msg).getLogin() + " " + ((CommandMessage) msg).getPassword());
             return;
 
         } else {
             if (msg instanceof CommandMessage) {
                 String command = ((CommandMessage) msg).getCommand();
+
                 if(command.equals(CommandMessage.AUTH_REQUEST)) {
                     if(checkAuth(((CommandMessage) msg).getLogin(), ((CommandMessage) msg).getPassword())) {
                         isClientAuthorized = true;
@@ -31,7 +31,7 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
                         System.out.println("client authorized with: " + ((CommandMessage) msg).getLogin() + " " + ((CommandMessage) msg).getPassword());
                     } else {
                         System.out.println("bad login password");
-                        ctx.write(new CommandMessage(CommandMessage.AUTH_DECLINE));
+                        ctx.write(new CommandMessage(CommandMessage.AUTH_CONFIRM));
                     }
                 } else {
                     System.out.println("message not a request");
@@ -47,7 +47,6 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
-        //ctx.flush();
         ctx.close();
     }
 

@@ -8,11 +8,7 @@ import io.netty.util.ReferenceCountUtil;
 public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Client connected...");
-        // Send greeting for a new connection.
-        // ctx.write("Welcome to " + InetAddress.getLocalHost().getHostName() + "!\r\n");
-        // ctx.write("It is " + new Date() + " now.\r\n");
-        // ctx.flush();
+
     }
 
     @Override
@@ -20,13 +16,14 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
         try {
             if (msg == null)
                 return;
-            System.out.println(msg.getClass());
+
             if (msg instanceof CommandMessage) {
                 System.out.println("Client text message: " + ((CommandMessage) msg).getCommand());
             } else {
                 System.out.printf("Server received wrong object!");
                 return;
             }
+
         } finally {
             ReferenceCountUtil.release(msg);
         }

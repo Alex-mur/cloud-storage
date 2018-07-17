@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 public class CommandMessage implements Serializable {
 
-    public static final String AUTH_REQUEST = "auth";
-    public static final String AUTH_CONFIRM = "auth_ok";
-    public static final String AUTH_DECLINE = "auth_wrongPass";
-    public static final String DISCONNECT = "disconnect";
-    public static final String SEND_FILE_REQUEST = "send_file";
+    public static final String AUTH_REQUEST = "34456325432875";
+    public static final String AUTH_CONFIRM = "53456546754769";
+    public static final String AUTH_DECLINE = "13421543364567";
+    public static final String DISCONNECT = "42391363456346";
+    public static final String SEND_FILE_REQUEST = "24356567456000";
 
     private String command;
     private String login;
