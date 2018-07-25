@@ -2,26 +2,42 @@ package com.cloud.storage.common;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class CommandMessage implements Serializable {
 
-    public static final String AUTH_REQUEST = "34456325432875";
-    public static final String AUTH_CONFIRM = "53456546754769";
+    public static final String AUTH_REQUEST = "14456325432875";
+    public static final String AUTH_CONFIRM = "13456546754769";
     public static final String AUTH_DECLINE = "13421543364567";
-    public static final String REGISTER_NEW_USER = "653256898245";
-    public static final String REGISTER_RESULT = "653256898245";
+    public static final String REGISTER_NEW_USER = "253256898245";
+    public static final String REGISTER_CONFIRM = "253256898245";
+    public static final String REGISTER_DECLINE = "24676686578245";
     public static final String DISCONNECT = "42391363456346";
     public static final String GET_FILE_LIST = "584772838686292475";
+    public static final String SEND_FILE_REQUEST = "3649926666549";
+    public static final String SEND_FILE_CONFIRM = "359637355478568";
+    public static final String SEND_FILE_DECLINE_EXIST = "335875769863965";
+    public static final String SEND_FILE_DECLINE_SPACE = "345654632314453";
+
 
     private String command;
     private String text;
     private String login;
     private String password;
-    private File[] fileList;
+    private ArrayList<String[]> fileList;
+    private String fileName;
+    private Long fileSize;
 
-    public CommandMessage(String command, File[] fileList) {
+
+    public CommandMessage(String command, ArrayList<String[]> fileList) {
         this.command = command;
         this.fileList = fileList;
+    }
+
+    public CommandMessage(String command, String fileName, long fileSize) {
+        this.command = command;
+        this.fileName = fileName;
+        this.fileSize = fileSize;
     }
 
     public CommandMessage(String command, String text) {
@@ -55,7 +71,15 @@ public class CommandMessage implements Serializable {
         return text;
     }
 
-    public File[] getFileList() {
+    public ArrayList<String[]> getFileList() {
         return fileList;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public Long getFileSize() {
+        return fileSize;
     }
 }

@@ -1,11 +1,11 @@
 package com.cloud.storage.client;
 
-public class FileListItem {
+public class LocalFileListItem {
     private String name;
     private Long size;
     private String path;
 
-    public FileListItem(String name, long size, String path) {
+    public LocalFileListItem(String name, long size, String path) {
         this.name = name;
         this.size = size;
         this.path = path;

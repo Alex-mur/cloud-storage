@@ -25,7 +25,22 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
                 String command = ((CommandMessage) msg).getCommand();
 
                 if (command.equals(CommandMessage.GET_FILE_LIST)) {
-                    ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userLogin)));
+                    ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));
+                    ctx.flush();
+                }
+
+                if (command.equals(CommandMessage.SEND_FILE_REQUEST)) {
+                    if (FilesHandler.isFileExist(userDir, ((CommandMessage) msg).getFileName())) {
+                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_DECLINE_EXIST));
+                        ctx.flush();
+                    } else if (((CommandMessage) msg).getFileSize() >= FilesHandler.getAvailableSize(userDir)) {
+                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_DECLINE_SPACE));
+                        ctx.flush();
+                    } else {
+                        FilesHandler.createTempFile(userDir, ((CommandMessage) msg).getFileName());
+                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_CONFIRM));
+                        ctx.flush();
+                    }
                 }
             }
 

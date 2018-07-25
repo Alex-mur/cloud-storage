@@ -1,10 +1,41 @@
 package com.cloud.storage.server;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class FilesHandler {
 
-    public static File[] listDirectory(String path) {
-        return new File(path).listFiles();
+    public static ArrayList<String[]> listDirectory(String path) {
+        ArrayList filesList = new ArrayList();
+        for (File file : new File(path).listFiles()) {
+            filesList.add(new String[]{file.getName(), Long.toString(file.length())});
+        }
+        return filesList;
+    }
+
+    public static long getAvailableSize(String path) {
+        long totalLength = 0;
+        for (File currentFile : new File(path).listFiles()) {
+            totalLength += currentFile.length();
+        }
+
+        return SettingsMgmt.MAX_USER_FOLDER_SIZE - totalLength;
+    }
+
+    public static boolean isFileExist(String path, String name) {
+        boolean isExist = false;
+        for (File file : new File(path).listFiles()) {
+            if (file.getName().equals(name)) {
+                return true;
+            }
+        }
+
+        return isExist;
+    }
+
+    public static void createTempFile(String path, String name) throws IOException {
+        String tempFileName = name  + ".partial";
+        (new File(path + tempFileName)).createNewFile();
     }
 }

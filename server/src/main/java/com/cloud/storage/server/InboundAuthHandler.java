@@ -42,9 +42,13 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
                     if (tryToRegisterUser(((CommandMessage) msg).getLogin(), ((CommandMessage) msg).getPassword())) {
                         isClientAuthorized = true;
                         ctx.pipeline().addLast(new InboundObjectHandler(((CommandMessage) msg).getLogin()));
-                        ctx.write(new CommandMessage(CommandMessage.REGISTER_RESULT, "New user with login " + ((CommandMessage) msg).getLogin() + " successfully registered!"));
+                        ctx.write(new CommandMessage(CommandMessage.REGISTER_CONFIRM, "New user with login " + ((CommandMessage) msg).getLogin() + " successfully registered!"));
+                        ctx.write(new CommandMessage(CommandMessage.AUTH_CONFIRM));
                         ctx.flush();
                         System.out.println("register ok");
+                    } else {
+                        ctx.write(new CommandMessage(CommandMessage.REGISTER_DECLINE));
+                        ctx.flush();
                     }
                 }
             } else {

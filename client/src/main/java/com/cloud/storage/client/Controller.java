@@ -16,10 +16,9 @@ import javafx.stage.DirectoryChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -44,8 +43,8 @@ public class Controller implements Initializable {
     private boolean isAuthorized;
     private boolean isConnected;
     private boolean isLocalDirChoosed;
-    ObservableList<FileListItem> localFileList;
-    ObservableList<FileListItem> remoteFileList;
+    ObservableList<LocalFileListItem> localFileList;
+    ObservableList<RemoteFileListItem> remoteFileList;
     Thread connectionListenerThread;
 
     public void initialize(URL url, ResourceBundle rb) {
@@ -128,17 +127,27 @@ public class Controller implements Initializable {
                             Platform.runLater(() -> {
                                 writeToLogArea("Connected to server OK");
                                 initRemoteArea();
+                                requestRemoteFileList();
                             });
                             break;
                         }
 
                         if (command.equals(CommandMessage.AUTH_DECLINE)) {
-                            System.out.println("Bad password");
                             Platform.runLater(() ->
                                     writeToLogArea("Authorization declined by server. Wrong login or password?"));
                         }
 
+                        if (command.equals(CommandMessage.REGISTER_CONFIRM)) {
+                            Platform.runLater(() ->
+                                writeToLogArea(((CommandMessage) msg).getText())
+                            );
+                        }
 
+                        if (command.equals(CommandMessage.REGISTER_DECLINE)) {
+                            Platform.runLater(() ->
+                                writeToLogArea("Registration declined. Try another user name..")
+                            );
+                        }
                     }
                 }
 
@@ -149,12 +158,9 @@ public class Controller implements Initializable {
                         String command = ((CommandMessage) msg).getCommand();
 
                         if (command.equals(CommandMessage.GET_FILE_LIST)) {
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    writeToLogArea("Get response for file list " + ((CommandMessage) msg).getCommand() + " " + ((CommandMessage) msg).getFileList()[0].getName());
-                                    updateRemoteTable(((CommandMessage) msg).getFileList());
-                                }
+                            Platform.runLater(() -> {
+                                writeToLogArea("Remote filesList received");
+                                updateRemoteTable(((CommandMessage) msg).getFileList());
                             });
                         }
 
@@ -250,13 +256,13 @@ public class Controller implements Initializable {
     }
 
     public void initLocalFilesTable() {
-        TableColumn<FileListItem, String> tcName = new TableColumn<>("Name");
+        TableColumn<LocalFileListItem, String> tcName = new TableColumn<>("Name");
         tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcName.maxWidthProperty().bind(localTable.widthProperty().multiply(0.65));
         tcName.prefWidthProperty().bind(localTable.widthProperty().multiply(0.65));
         tcName.setResizable(false);
 
-        TableColumn<FileListItem, Long> tcSize = new TableColumn<>("Size (KB)");
+        TableColumn<LocalFileListItem, Long> tcSize = new TableColumn<>("Size (KB)");
         tcSize.setCellValueFactory(new PropertyValueFactory<>("size"));
         tcSize.maxWidthProperty().bind(localTable.widthProperty().multiply(0.35));
         tcSize.prefWidthProperty().bind(localTable.widthProperty().multiply(0.35));
@@ -266,14 +272,14 @@ public class Controller implements Initializable {
     }
 
     public void initRemoteFilesTable() {
-        TableColumn<FileListItem, String> tcName = new TableColumn<>("Name");
+        TableColumn<RemoteFileListItem, String> tcName = new TableColumn<>("Name");
         tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcName.maxWidthProperty().bind(remoteTable.widthProperty().multiply(0.65));
         tcName.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.65));
         tcName.setResizable(false);
 
-        TableColumn<FileListItem, Long> tcSize = new TableColumn<>("Size (KB)");
-        tcSize.setCellValueFactory(new PropertyValueFactory<>("size"));
+        TableColumn<RemoteFileListItem, Integer> tcSize = new TableColumn<>("Size (KB)");
+        tcSize.setCellValueFactory(new PropertyValueFactory<>("sizeKB"));
         tcSize.maxWidthProperty().bind(remoteTable.widthProperty().multiply(0.35));
         tcSize.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.35));
         tcSize.setResizable(false);
@@ -287,16 +293,16 @@ public class Controller implements Initializable {
         localFileList = FXCollections.observableArrayList();
 
         for(int i = 0; i < files.length; i++) {
-            localFileList.add(new FileListItem(files[i].getName(), files[i].length() / 1024, files[i].getAbsolutePath()));
+            localFileList.add(new LocalFileListItem(files[i].getName(), files[i].length() / 1024, files[i].getAbsolutePath()));
         }
 
         localTable.setItems(localFileList);
     }
 
-    public void updateRemoteTable(File[] files) {
+    public void updateRemoteTable(ArrayList<String[]> files) {
         remoteFileList = FXCollections.observableArrayList();
-        for(int i = 0; i < files.length; i++) {
-            remoteFileList.add(new FileListItem(files[i].getName(), files[i].length() / 1024, files[i].getAbsolutePath()));
+        for(int i = 0; i < files.size(); i++) {
+            remoteFileList.add(new RemoteFileListItem(files.get(i)[0], Long.parseLong(files.get(i)[1])));
         }
 
         remoteTable.setItems(remoteFileList);
@@ -311,16 +317,16 @@ public class Controller implements Initializable {
     }
 
     public void sendFile(File file) {
-        writeToLogArea("demo sending file:  " + file.getAbsolutePath());
+        writeToLogArea("Reqest sending file:  " + file.getAbsolutePath());
         try {
-            ConnectionHandler.getInstance().sendData(new CommandMessage("demo sending file:  " + file.getAbsolutePath()));
+            ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.SEND_FILE_REQUEST, file.getName(), file.length()));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void btnSendClick() {
-        FileListItem fileItem = (FileListItem) localTable.getSelectionModel().getSelectedItem();
+        LocalFileListItem fileItem = (LocalFileListItem) localTable.getSelectionModel().getSelectedItem();
         sendFile(new File(fileItem.getPath()));
     }
 
