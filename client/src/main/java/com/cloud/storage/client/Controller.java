@@ -43,6 +43,8 @@ public class Controller implements Initializable {
     private boolean isAuthorized;
     private boolean isConnected;
     private boolean isLocalDirChoosed;
+    private File currentRootDirectory;
+    private ArrayList<FileSender> sendQueue;
     ObservableList<LocalFileListItem> localFileList;
     ObservableList<RemoteFileListItem> remoteFileList;
     Thread connectionListenerThread;
@@ -59,6 +61,7 @@ public class Controller implements Initializable {
         isAuthorized = false;
         isConnected = false;
         isLocalDirChoosed = false;
+        sendQueue = new ArrayList<>();
         initLocalFilesTable();
         initRemoteFilesTable();
         pBar.prefWidthProperty().bind(logArea.widthProperty());
@@ -169,6 +172,31 @@ public class Controller implements Initializable {
                             break;
                         }
 
+                        if (command.equals(CommandMessage.SEND_FILE_DECLINE_EXIST)) {
+                            Platform.runLater(() ->
+                                writeToLogArea("File already exist on server: " + ((CommandMessage) msg).getText())
+                            );
+                        }
+
+                        if (command.equals(CommandMessage.SEND_FILE_DECLINE_SPACE)) {
+                            Platform.runLater(() ->
+                                writeToLogArea("Not enough space to save file")
+                            );
+                        }
+
+                        if (command.equals(CommandMessage.SEND_FILE_CONFIRM)) {
+                            FileSender fs = new FileSender(new File(currentRootDirectory + "\\" + ((CommandMessage) msg).getText()));
+                            sendQueue.add(fs);
+                            fs.sendFile();
+
+                        }
+
+                        if (command.equals(CommandMessage.MESSAGE)) {
+                            Platform.runLater(() -> {
+                                writeToLogArea("Message from server: " + ((CommandMessage) msg).getText());
+                            });
+                        }
+
                     } else if(msg instanceof FileMessage) {
 
                     }
@@ -218,6 +246,7 @@ public class Controller implements Initializable {
         chooser.setTitle("Select local directory");
         File selectedDirectory = chooser.showDialog(Main.primaryStage);
         if (selectedDirectory != null) {
+            currentRootDirectory = selectedDirectory;
             updateLocalTable(selectedDirectory);
         }
     }
@@ -228,6 +257,7 @@ public class Controller implements Initializable {
         File selectedDirectory = chooser.showDialog(Main.primaryStage);
 
         if (selectedDirectory != null) {
+            currentRootDirectory = selectedDirectory;
             updateLocalTable(selectedDirectory);
             isLocalDirChoosed = true;
             chooseLocalDirArea.setManaged(false);
@@ -316,7 +346,7 @@ public class Controller implements Initializable {
         }
     }
 
-    public void sendFile(File file) {
+    public void requestFileSending(File file) {
         writeToLogArea("Reqest sending file:  " + file.getAbsolutePath());
         try {
             ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.SEND_FILE_REQUEST, file.getName(), file.length()));
@@ -327,7 +357,7 @@ public class Controller implements Initializable {
 
     public void btnSendClick() {
         LocalFileListItem fileItem = (LocalFileListItem) localTable.getSelectionModel().getSelectedItem();
-        sendFile(new File(fileItem.getPath()));
+        requestFileSending(new File(fileItem.getPath()));
     }
 
     public void btnReceiveClick() {

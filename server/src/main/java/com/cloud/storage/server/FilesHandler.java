@@ -33,9 +33,4 @@ public class FilesHandler {
 
         return isExist;
     }
-
-    public static void createTempFile(String path, String name) throws IOException {
-        String tempFileName = name  + ".partial";
-        (new File(path + tempFileName)).createNewFile();
-    }
 }

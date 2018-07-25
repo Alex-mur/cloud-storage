@@ -1,14 +1,18 @@
 package com.cloud.storage.server;
 
 import com.cloud.storage.common.CommandMessage;
+import com.cloud.storage.common.FileMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
+
+import java.util.ArrayList;
 
 public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
 
     private String userLogin;
     private String userDir;
+    private ArrayList<FileReceiver> receiveQueue;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -31,15 +35,32 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
 
                 if (command.equals(CommandMessage.SEND_FILE_REQUEST)) {
                     if (FilesHandler.isFileExist(userDir, ((CommandMessage) msg).getFileName())) {
-                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_DECLINE_EXIST));
+                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_DECLINE_EXIST, ((CommandMessage) msg).getFileName()));
                         ctx.flush();
                     } else if (((CommandMessage) msg).getFileSize() >= FilesHandler.getAvailableSize(userDir)) {
-                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_DECLINE_SPACE));
+                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_DECLINE_SPACE, ((CommandMessage) msg).getFileName()));
                         ctx.flush();
                     } else {
-                        FilesHandler.createTempFile(userDir, ((CommandMessage) msg).getFileName());
-                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_CONFIRM));
+//                        FilesHandler.createTempFile(userDir, ((CommandMessage) msg).getFileName());
+                        receiveQueue.add(new FileReceiver(userDir, ((CommandMessage) msg).getFileName(), ((CommandMessage) msg).getFileSize()));
+                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_CONFIRM, ((CommandMessage) msg).getFileName()));
+                        ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));
                         ctx.flush();
+                    }
+                }
+            }
+
+            if (msg instanceof FileMessage) {
+                System.out.println("get file message");
+                for (int i = 0; i < receiveQueue.size(); i++) {
+                    if (receiveQueue.get(i).getFinalFileName().equals(((FileMessage) msg).getName())) {
+                        if (receiveQueue.get(i).receiveFile((FileMessage) msg)) {
+                            receiveQueue.remove(i);
+                            ctx.write(new CommandMessage(CommandMessage.MESSAGE, "File received: " + ((FileMessage) msg).getName()));
+                            ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));
+                            ctx.flush();
+                        }
+                        break;
                     }
                 }
             }
@@ -63,6 +84,7 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
 
     public InboundObjectHandler(String userLogin) {
         this.userLogin = userLogin;
+        this.receiveQueue = new ArrayList<>();
         userDir = SQLHandler.getUserFolderByLogin(userLogin);
         System.out.println("InboundObjectHandler  init. User: " + userLogin + " Dir: " + userDir);
     }

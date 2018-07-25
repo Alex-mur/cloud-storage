@@ -37,7 +37,6 @@ public class ConnectionHandler {
     public void sendData (Object data) throws IOException {
         out.writeObject(data);
         out.flush();
-        System.out.println("data sent");
     }
 
     public Object readData() throws IOException,ClassNotFoundException {
