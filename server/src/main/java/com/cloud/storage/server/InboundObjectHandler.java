@@ -6,6 +6,10 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 
 public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
+
+    private String userLogin;
+    private String userDir;
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
@@ -18,10 +22,11 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
                 return;
 
             if (msg instanceof CommandMessage) {
-                System.out.println("Client text message: " + ((CommandMessage) msg).getCommand());
-            } else {
-                System.out.printf("Server received wrong object!");
-                return;
+                String command = ((CommandMessage) msg).getCommand();
+
+                if (command.equals(CommandMessage.GET_FILE_LIST)) {
+                    ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userLogin)));
+                }
             }
 
         } finally {
@@ -39,5 +44,11 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
         cause.printStackTrace();
         //ctx.flush();
         ctx.close();
+    }
+
+    public InboundObjectHandler(String userLogin) {
+        this.userLogin = userLogin;
+        userDir = SQLHandler.getUserFolderByLogin(userLogin);
+        System.out.println("InboundObjectHandler  init. User: " + userLogin + " Dir: " + userDir);
     }
 }

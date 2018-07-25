@@ -28,6 +28,18 @@ public class SQLHandler {
         return null;
     }
 
+    public static String getUserFolderByLogin(String login) {
+        try {
+            ResultSet rs = stmt.executeQuery("SELECT userDirPath FROM users WHERE login = '" + login + "';");
+            if(rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static boolean updateUserDirPath(String login, String userDirPath) {
         try {
             stmt.executeUpdate(String.format("UPDATE USERS SET userDirPath = '%s' WHERE login = '%s'", userDirPath, login));

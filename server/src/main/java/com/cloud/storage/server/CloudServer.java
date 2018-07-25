@@ -31,8 +31,9 @@ public class CloudServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new ObjectEncoder(),
+                            ch.pipeline().addLast(
                                     new ObjectDecoder(ClassResolvers.softCachingResolver(null)),
+                                    new ObjectEncoder(),
                                     new InboundAuthHandler());
                         }
                     })

@@ -1,5 +1,6 @@
 package com.cloud.storage.common;
 
+import java.io.File;
 import java.io.Serializable;
 
 public class CommandMessage implements Serializable {
@@ -10,13 +11,18 @@ public class CommandMessage implements Serializable {
     public static final String REGISTER_NEW_USER = "653256898245";
     public static final String REGISTER_RESULT = "653256898245";
     public static final String DISCONNECT = "42391363456346";
-    public static final String SEND_FILE_REQUEST = "24356567456000";
+    public static final String GET_FILE_LIST = "584772838686292475";
 
     private String command;
     private String text;
     private String login;
     private String password;
-    private long fileSizeInBytes;
+    private File[] fileList;
+
+    public CommandMessage(String command, File[] fileList) {
+        this.command = command;
+        this.fileList = fileList;
+    }
 
     public CommandMessage(String command, String text) {
         this.command = command;
@@ -25,11 +31,6 @@ public class CommandMessage implements Serializable {
 
     public CommandMessage(String command) {
         this.command = command;
-    }
-
-    public CommandMessage(String command, long fileSizeInBytes) {
-        this.command = command;
-        this.fileSizeInBytes = fileSizeInBytes;
     }
 
     public CommandMessage(String command, String login, String password) {
@@ -50,11 +51,11 @@ public class CommandMessage implements Serializable {
         return password;
     }
 
-    public long getFileSizeInBytes() {
-        return fileSizeInBytes;
-    }
-
     public String getText() {
         return text;
+    }
+
+    public File[] getFileList() {
+        return fileList;
     }
 }

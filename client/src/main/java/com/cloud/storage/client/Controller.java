@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
@@ -39,9 +41,12 @@ public class Controller implements Initializable {
     public ProgressBar pBar;
     public VBox logArea;
 
+    private boolean isAuthorized;
     private boolean isConnected;
     private boolean isLocalDirChoosed;
-    ObservableList<FileItem> localFileList;
+    ObservableList<FileListItem> localFileList;
+    ObservableList<FileListItem> remoteFileList;
+    Thread connectionListenerThread;
 
     public void initialize(URL url, ResourceBundle rb) {
         localTableArea.setManaged(false);
@@ -52,6 +57,7 @@ public class Controller implements Initializable {
         remoteTableArea.setPrefWidth(mainArea.getWidth() * 0.45);
         transferBtnArea.setVisible(false);
         transferBtnArea.setManaged(false);
+        isAuthorized = false;
         isConnected = false;
         isLocalDirChoosed = false;
         initLocalFilesTable();
@@ -62,11 +68,9 @@ public class Controller implements Initializable {
     public void btnConnectClick() {
         try {
             if (fieldLogin.getText().length() != 0 && fieldPassword.getText().length() != 0) {
-                ConnectionHandler.getInstance().connect();
-                    if (ConnectionHandler.getInstance().isConnected()) {
-                        startConnectionListener();
-                        ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.AUTH_REQUEST, fieldLogin.getText(), fieldPassword.getText()));
-                }
+                if (!isConnected) initConnection();
+                ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.AUTH_REQUEST, fieldLogin.getText(), fieldPassword.getText()));
+
             } else  writeToLogArea("Login or password cannot be empty!!!");
 
         } catch (IOException e) {
@@ -79,11 +83,9 @@ public class Controller implements Initializable {
     public void btnRegisterClick() {
         try {
             if (fieldLogin.getText().length() != 0 && fieldPassword.getText().length() != 0) {
-                ConnectionHandler.getInstance().connect();
-                if (ConnectionHandler.getInstance().isConnected()) {
-                    startConnectionListener();
-                    ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.REGISTER_NEW_USER, fieldLogin.getText(), fieldPassword.getText()));
-                }
+                if (!isConnected) initConnection();
+                ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.REGISTER_NEW_USER, fieldLogin.getText(), fieldPassword.getText()));
+
             } else  writeToLogArea("Login or password cannot be empty!!!");
 
         } catch (IOException e) {
@@ -92,17 +94,37 @@ public class Controller implements Initializable {
         }
     }
 
+    public void initConnection() {
+        try {
+            ConnectionHandler.getInstance().connect();
+            if (ConnectionHandler.getInstance().isConnected()) {
+                startConnectionListener();
+                isConnected = true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            writeToLogArea(e.getMessage());
+        }
+    }
+
+    public void closeConnection() {
+        connectionListenerThread.interrupt();
+        ConnectionHandler.getInstance().close();
+        isConnected = false;
+        isAuthorized = false;
+    }
+
     public void startConnectionListener() {
-        new Thread(() -> {
+        connectionListenerThread = new Thread(() -> {
             try {
-                while(true) {
+                while(!Thread.currentThread().isInterrupted()) {
                     Object msg = ConnectionHandler.getInstance().readData();
 
                     if (msg instanceof CommandMessage) {
                         String command = ((CommandMessage) msg).getCommand();
 
                         if (command.equals(CommandMessage.AUTH_CONFIRM)) {
-                            isConnected = true;
+                            isAuthorized = true;
                             Platform.runLater(() -> {
                                 writeToLogArea("Connected to server OK");
                                 initRemoteArea();
@@ -120,11 +142,21 @@ public class Controller implements Initializable {
                     }
                 }
 
-                while (true) {
+                while (!Thread.currentThread().isInterrupted()) {
                     Object msg = ConnectionHandler.getInstance().readData();
 
                     if (msg instanceof CommandMessage) {
                         String command = ((CommandMessage) msg).getCommand();
+
+                        if (command.equals(CommandMessage.GET_FILE_LIST)) {
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    writeToLogArea("Get response for file list " + ((CommandMessage) msg).getCommand() + " " + ((CommandMessage) msg).getFileList()[0].getName());
+                                    updateRemoteTable(((CommandMessage) msg).getFileList());
+                                }
+                            });
+                        }
 
                         if (command.equals(CommandMessage.DISCONNECT)){
                             Platform.runLater(() -> writeToLogArea("Received disconnect command from server"));
@@ -142,12 +174,15 @@ public class Controller implements Initializable {
 
             } finally {
                 ConnectionHandler.getInstance().close();
+                isAuthorized = false;
+                isConnected = false;
                 Platform.runLater(() -> {
                     writeToLogArea("connection closed");
                     hideRemoteArea();
                 });
             }
-        }).start();
+        });
+        connectionListenerThread.start();
     }
 
     public void initRemoteArea() {
@@ -193,7 +228,7 @@ public class Controller implements Initializable {
             chooseLocalDirArea.setVisible(false);
             localTableArea.setManaged(true);
             localTableArea.setVisible(true);
-            if (isConnected) {
+            if (isAuthorized) {
                 transferBtnArea.setVisible(true);
                 transferBtnArea.setManaged(true);
             }
@@ -202,26 +237,26 @@ public class Controller implements Initializable {
 
     public void btnLogoutClick() {
         ConnectionHandler.getInstance().close();
-        isConnected = false;
+        isAuthorized = false;
         writeToLogArea("initiating logout");
         writeToLogArea("connection closed by user");
         hideRemoteArea();
     }
 
     public void writeToLogArea(String text) {
-        SimpleDateFormat format = new SimpleDateFormat("MM.dd.yyyy-HH:mm:ss");
-        logAreaList.getItems().add(format.format(Calendar.getInstance().getTime()) + " -> " + text);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy--HH:mm");
+        logAreaList.getItems().add(LocalDateTime.now().format(formatter) + " -> " + text);
         logAreaList.scrollTo(logAreaList.getItems().size() - 1);
     }
 
     public void initLocalFilesTable() {
-        TableColumn<FileItem, String> tcName = new TableColumn<>("Name");
+        TableColumn<FileListItem, String> tcName = new TableColumn<>("Name");
         tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcName.maxWidthProperty().bind(localTable.widthProperty().multiply(0.65));
         tcName.prefWidthProperty().bind(localTable.widthProperty().multiply(0.65));
         tcName.setResizable(false);
 
-        TableColumn<FileItem, Long> tcSize = new TableColumn<>("Size (KB)");
+        TableColumn<FileListItem, Long> tcSize = new TableColumn<>("Size (KB)");
         tcSize.setCellValueFactory(new PropertyValueFactory<>("size"));
         tcSize.maxWidthProperty().bind(localTable.widthProperty().multiply(0.35));
         tcSize.prefWidthProperty().bind(localTable.widthProperty().multiply(0.35));
@@ -231,13 +266,13 @@ public class Controller implements Initializable {
     }
 
     public void initRemoteFilesTable() {
-        TableColumn<FileItem, String> tcName = new TableColumn<>("Name");
+        TableColumn<FileListItem, String> tcName = new TableColumn<>("Name");
         tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcName.maxWidthProperty().bind(remoteTable.widthProperty().multiply(0.65));
         tcName.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.65));
         tcName.setResizable(false);
 
-        TableColumn<FileItem, Long> tcSize = new TableColumn<>("Size (KB)");
+        TableColumn<FileListItem, Long> tcSize = new TableColumn<>("Size (KB)");
         tcSize.setCellValueFactory(new PropertyValueFactory<>("size"));
         tcSize.maxWidthProperty().bind(remoteTable.widthProperty().multiply(0.35));
         tcSize.prefWidthProperty().bind(remoteTable.widthProperty().multiply(0.35));
@@ -252,10 +287,27 @@ public class Controller implements Initializable {
         localFileList = FXCollections.observableArrayList();
 
         for(int i = 0; i < files.length; i++) {
-            localFileList.add(new FileItem(files[i].getName(), files[i].length() / 1024, files[i].getAbsolutePath()));
+            localFileList.add(new FileListItem(files[i].getName(), files[i].length() / 1024, files[i].getAbsolutePath()));
         }
 
         localTable.setItems(localFileList);
+    }
+
+    public void updateRemoteTable(File[] files) {
+        remoteFileList = FXCollections.observableArrayList();
+        for(int i = 0; i < files.length; i++) {
+            remoteFileList.add(new FileListItem(files[i].getName(), files[i].length() / 1024, files[i].getAbsolutePath()));
+        }
+
+        remoteTable.setItems(remoteFileList);
+    }
+
+    public void requestRemoteFileList() {
+        try {
+            ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.GET_FILE_LIST));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendFile(File file) {
@@ -268,12 +320,14 @@ public class Controller implements Initializable {
     }
 
     public void btnSendClick() {
-        FileItem fileItem = (FileItem) localTable.getSelectionModel().getSelectedItem();
+        FileListItem fileItem = (FileListItem) localTable.getSelectionModel().getSelectedItem();
         sendFile(new File(fileItem.getPath()));
     }
 
     public void btnReceiveClick() {
     }
 
-
+    public void btnRefreshRemote(ActionEvent actionEvent) {
+        requestRemoteFileList();
+    }
 }

@@ -1,7 +1,6 @@
 package com.cloud.storage.server;
 
 import com.cloud.storage.common.CommandMessage;
-import com.sun.xml.internal.ws.developer.MemberSubmissionEndpointReference;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -29,10 +28,11 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
                 if (command.equals(CommandMessage.AUTH_REQUEST)) {
                     if (checkAuth(((CommandMessage) msg).getLogin(), ((CommandMessage) msg).getPassword())) {
                         isClientAuthorized = true;
-                        ctx.pipeline().addLast(new InboundObjectHandler());
+                        ctx.pipeline().addLast(new InboundObjectHandler(((CommandMessage) msg).getLogin()));
                         ctx.write(new CommandMessage(CommandMessage.AUTH_CONFIRM));
                         ctx.flush();
                         System.out.println("client authorized with: " + ((CommandMessage) msg).getLogin() + " " + ((CommandMessage) msg).getPassword());
+
                     } else {
                         System.out.println("bad login password");
                         ctx.write(new CommandMessage(CommandMessage.AUTH_DECLINE));
@@ -40,9 +40,11 @@ public class InboundAuthHandler extends ChannelInboundHandlerAdapter {
                     }
                 } else if (command.equals(CommandMessage.REGISTER_NEW_USER)) {
                     if (tryToRegisterUser(((CommandMessage) msg).getLogin(), ((CommandMessage) msg).getPassword())) {
-                        ctx.fireChannelRead(msg);
+                        isClientAuthorized = true;
+                        ctx.pipeline().addLast(new InboundObjectHandler(((CommandMessage) msg).getLogin()));
                         ctx.write(new CommandMessage(CommandMessage.REGISTER_RESULT, "New user with login " + ((CommandMessage) msg).getLogin() + " successfully registered!"));
                         ctx.flush();
+                        System.out.println("register ok");
                     }
                 }
             } else {

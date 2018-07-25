@@ -100,6 +100,7 @@
                 </VBox>
                 <VBox fx:id="remoteTableArea" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                     <HBox fx:id="remoteControlPanel" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                        <Button fx:id="btnRefreshRemote" onAction="#btnRefreshRemote" text="Refresh" />
                         <Button fx:id="btnLogout" onAction="#btnLogoutClick" text="Logout" />
                         <VBox.margin>
                             <Insets top="10.0" />
