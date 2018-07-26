@@ -133,7 +133,6 @@
             <VBox.margin>
                <Insets top="10.0" />
             </VBox.margin></ListView>
-            <ProgressBar fx:id="pBar" progress="0.0" HBox.hgrow="ALWAYS" />
         </VBox>
     </VBox>
 </VBox>

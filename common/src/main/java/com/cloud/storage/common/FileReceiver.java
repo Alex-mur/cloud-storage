@@ -40,6 +40,7 @@ public class FileReceiver {
             tempFile.renameTo(new File(tempFile.getAbsolutePath().replace(".partial", "")));
             return true;
         }
+
         return false;
     }
 }

@@ -74,12 +74,28 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
                         ctx.flush();
                     }
                 }
+
+                if (command.equals(CommandMessage.RECEIVE_FILE_REQUEST)) {
+                    if(FilesHandler.isFileExist(userDir, ((CommandMessage) msg).getFileName())) {
+                        ctx.write(new CommandMessage(CommandMessage.RECEIVE_FILE_CONFIRM, ((CommandMessage) msg).getFileName(), FilesHandler.getFileLength(userDir, ((CommandMessage) msg).getFileName())));
+                        ctx.flush();
+                    } else {
+                        ctx.write(new CommandMessage(CommandMessage.RECEIVE_FILE_DECLINE, ((CommandMessage) msg).getFileName()));
+                        ctx.flush();
+                    }
+                }
+
+                if (command.equals(CommandMessage.RECEIVE_FILE_CONFIRM)) {
+                    (new ServerFileSender(new File(userDir + "\\" + ((CommandMessage) msg).getText()))).sendFile(ctx);
+                }
             }
 
             if (msg instanceof FileMessage) {
                 FileReceiver fr = receiveQueue.get(((FileMessage) msg).getName());
                 if (fr != null) {
-                    if (fr.receiveFile((FileMessage) msg)) {
+                    boolean isFinished = fr.receiveFile((FileMessage) msg);
+
+                    if (isFinished) {
                         receiveQueue.remove(((FileMessage) msg).getName());
                         ctx.write(new CommandMessage(CommandMessage.MESSAGE, "File received: " + ((FileMessage) msg).getName()));
                         ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir), FilesHandler.getAvailableSize(userDir)));

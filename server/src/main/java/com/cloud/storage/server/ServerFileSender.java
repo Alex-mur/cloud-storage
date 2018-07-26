@@ -1,5 +1,6 @@
 package com.cloud.storage.server;
 
+import com.cloud.storage.common.CommandMessage;
 import com.cloud.storage.common.FileMessage;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -29,19 +30,18 @@ public class ServerFileSender {
                     if (len < filePart.length) {
                         byte[] out = Arrays.copyOf(filePart, len);
                         ctx.write(new FileMessage(file.getName(), currentBytePosition, out));
+                        ctx.write(new CommandMessage(CommandMessage.MESSAGE, "File sending finished: " + file.getName()));
                         ctx.flush();
                     } else {
                         ctx.write(new FileMessage(file.getName(), currentBytePosition, filePart));
+                        ctx.flush();
                         currentBytePosition += FILE_PART_SIZE;
                         filePart = new byte[FILE_PART_SIZE];
-                        ctx.flush();
                     }
                 }
                 fis.close();
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-
             }
         }).start();
     }

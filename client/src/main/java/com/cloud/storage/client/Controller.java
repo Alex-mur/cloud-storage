@@ -2,15 +2,20 @@ package com.cloud.storage.client;
 
 import com.cloud.storage.common.CommandMessage;
 import com.cloud.storage.common.FileMessage;
+import com.cloud.storage.common.FileReceiver;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
@@ -21,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Controller implements Initializable {
 
@@ -38,7 +44,6 @@ public class Controller implements Initializable {
     public VBox remoteTableArea;
     public VBox transferBtnArea;
     public VBox localTableArea;
-    public ProgressBar pBar;
     public VBox logArea;
     public Text localSpaceValue;
     public Text remoteSpaceValue;
@@ -48,26 +53,30 @@ public class Controller implements Initializable {
     private boolean isLocalDirChoosed;
     private File currentRootDirectory;
     private ArrayList<ClientFileSender> sendQueue;
+    private ConcurrentHashMap<String, FileReceiver> receiveQueue;
+    private ConcurrentHashMap<String, HBox> pBarList;
     ObservableList<LocalFileListItem> localFileList;
     ObservableList<RemoteFileListItem> remoteFileList;
     Thread connectionListenerThread;
 
     public void initialize(URL url, ResourceBundle rb) {
-        localTableArea.setManaged(false);
-        localTableArea.setVisible(false);
-        localTableArea.setPrefWidth(mainArea.getWidth() * 0.45);
-        remoteTableArea.setManaged(false);
-        remoteTableArea.setVisible(false);
-        remoteTableArea.setPrefWidth(mainArea.getWidth() * 0.45);
-        transferBtnArea.setVisible(false);
-        transferBtnArea.setManaged(false);
-        isAuthorized = false;
-        isConnected = false;
-        isLocalDirChoosed = false;
-        sendQueue = new ArrayList<>();
+        this.localTableArea.setManaged(false);
+        this.localTableArea.setVisible(false);
+        this.localTableArea.setPrefWidth(mainArea.getWidth() * 0.45);
+        this.remoteTableArea.setManaged(false);
+        this.remoteTableArea.setVisible(false);
+        this.remoteTableArea.setPrefWidth(mainArea.getWidth() * 0.45);
+        this.transferBtnArea.setVisible(false);
+        this.transferBtnArea.setManaged(false);
+        this.isAuthorized = false;
+        this.isConnected = false;
+        this.isLocalDirChoosed = false;
+        this.sendQueue = new ArrayList<>();
+        this.receiveQueue = new ConcurrentHashMap<>();
+        this.pBarList = new ConcurrentHashMap<>();
+
         initLocalFilesTable();
         initRemoteFilesTable();
-        pBar.prefWidthProperty().bind(logArea.widthProperty());
     }
 
     public void btnConnectClick() {
@@ -165,7 +174,6 @@ public class Controller implements Initializable {
 
                         if (command.equals(CommandMessage.GET_FILE_LIST)) {
                             Platform.runLater(() -> {
-                                writeToLogArea("Remote filesList received");
                                 updateRemoteTable(((CommandMessage) msg).getFileList(), ((CommandMessage) msg).getAvailableSpace());
                             });
                         }
@@ -194,6 +202,20 @@ public class Controller implements Initializable {
 
                         }
 
+                        if (command.equals(CommandMessage.RECEIVE_FILE_DECLINE)) {
+                            Platform.runLater(() -> {
+                                writeToLogArea("Server declined your file request: " + ((CommandMessage) msg).getText());
+                            });
+                        }
+
+                        if (command.equals(CommandMessage.RECEIVE_FILE_CONFIRM)) {
+                            receiveQueue.put(((CommandMessage) msg).getFileName(), new FileReceiver(currentRootDirectory.getPath(), ((CommandMessage) msg).getFileName(), ((CommandMessage) msg).getFileSize()));
+                            ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.RECEIVE_FILE_CONFIRM, ((CommandMessage) msg).getFileName()));
+//                            Platform.runLater(() -> {
+//                                addProgressBar(((CommandMessage) msg).getFileName());
+//                            });
+                        }
+
                         if (command.equals(CommandMessage.MESSAGE)) {
                             Platform.runLater(() -> {
                                 writeToLogArea("Message from server: " + ((CommandMessage) msg).getText());
@@ -201,7 +223,21 @@ public class Controller implements Initializable {
                         }
 
                     } else if(msg instanceof FileMessage) {
-
+                        FileReceiver fr = receiveQueue.get(((FileMessage) msg).getName());
+                        if (fr != null) {
+                            boolean isComplete = fr.receiveFile((FileMessage) msg);
+//                            Platform.runLater(() -> {
+//                                updateProgressBar(((FileMessage) msg).getName(), ((((FileMessage) msg).getStartByte() + ((FileMessage) msg).getData().length) / (getTempFileLength(((FileMessage) msg).getName()))));
+//                            });
+                            if (isComplete) {
+                                receiveQueue.remove(((FileMessage) msg).getName());
+                                Platform.runLater(() -> {
+//                                    updateProgressBar(((FileMessage) msg).getName(), 1);
+                                    updateLocalTable(currentRootDirectory);
+                                    writeToLogArea("File received: " + ((FileMessage) msg).getName());
+                                });
+                            }
+                        }
                     }
                 }
 
@@ -244,43 +280,37 @@ public class Controller implements Initializable {
         loginArea.setVisible(true);
     }
 
-    public void btnChangeDirClick() {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Select local directory");
-        File selectedDirectory = chooser.showDialog(Main.primaryStage);
-        if (selectedDirectory != null) {
-            currentRootDirectory = selectedDirectory;
-            updateLocalTable(selectedDirectory);
-        }
-    }
-
-    public void btnChooseDirClick() {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Select local directory");
-        File selectedDirectory = chooser.showDialog(Main.primaryStage);
-
-        if (selectedDirectory != null) {
-            currentRootDirectory = selectedDirectory;
-            updateLocalTable(selectedDirectory);
-            isLocalDirChoosed = true;
-            chooseLocalDirArea.setManaged(false);
-            chooseLocalDirArea.setVisible(false);
-            localTableArea.setManaged(true);
-            localTableArea.setVisible(true);
-            if (isAuthorized) {
-                transferBtnArea.setVisible(true);
-                transferBtnArea.setManaged(true);
-            }
-        }
-    }
-
-    public void btnLogoutClick() {
-        ConnectionHandler.getInstance().close();
-        isAuthorized = false;
-        writeToLogArea("initiating logout");
-        writeToLogArea("connection closed by user");
-        hideRemoteArea();
-    }
+//    public void addProgressBar(String filename) {
+//        Text pBarDescr = new Text("Copying: " + filename);
+//        ProgressBar pBar = new ProgressBar(0);
+//
+//        HBox hBox = new HBox(10);
+//        logArea.getChildren().add(hBox);
+//        hBox.setHgrow(logArea, Priority.ALWAYS);
+//
+//        pBar.prefWidthProperty().bind(hBox.widthProperty());
+//        hBox.getChildren().addAll(pBarDescr, pBar);
+//
+//        pBarList.put(filename, hBox);
+//    }
+//
+//    public long getTempFileLength(String name) {
+//        return new File(currentRootDirectory + "\\" + name + ".partial").length();
+//    }
+//
+//    public void removeProgressBar(String name) {
+//        HBox hBox = pBarList.get(name);
+//        pBarList.remove(name);
+//        logArea.getChildren().remove(hBox);
+//    }
+//
+//    public void updateProgressBar(String name, double progress) {
+//        ProgressBar pBar = (ProgressBar) pBarList.get(name).getChildren().get(1);
+//        pBar.setProgress(progress);
+//        if (pBar.getProgress() == 1) {
+//            removeProgressBar(name);
+//        }
+//    }
 
     public void writeToLogArea(String text) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy--HH:mm");
@@ -364,7 +394,7 @@ public class Controller implements Initializable {
         writeToLogArea("Requesting file from server: " + name);
         if (fileSize < (currentRootDirectory.getFreeSpace() + 2000000)) {
             try {
-                ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.RECEIVE_FILE_REQUEST, name));
+                ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.RECEIVE_FILE_REQUEST, name, fileSize));
             } catch (IOException e) {
                 e.printStackTrace();
                 writeToLogArea(e.getMessage());
@@ -395,7 +425,17 @@ public class Controller implements Initializable {
         requestFileSending(new File(fileItem.getPath()));
     }
 
+    public void btnLogoutClick() {
+        ConnectionHandler.getInstance().close();
+        isAuthorized = false;
+        writeToLogArea("initiating logout");
+        writeToLogArea("connection closed by user");
+        hideRemoteArea();
+    }
+
     public void btnReceiveClick() {
+        RemoteFileListItem fileItem = (RemoteFileListItem) remoteTable.getSelectionModel().getSelectedItem();
+        requestFile(fileItem.getName(), fileItem.getSizeByte());
     }
 
     public void btnRefreshRemote() {
@@ -404,6 +444,36 @@ public class Controller implements Initializable {
 
     public void btnRefreshLocal() {
         updateLocalTable(currentRootDirectory);
+    }
+
+    public void btnChangeDirClick() {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Select local directory");
+        File selectedDirectory = chooser.showDialog(Main.primaryStage);
+        if (selectedDirectory != null) {
+            currentRootDirectory = selectedDirectory;
+            updateLocalTable(selectedDirectory);
+        }
+    }
+
+    public void btnChooseDirClick() {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Select local directory");
+        File selectedDirectory = chooser.showDialog(Main.primaryStage);
+
+        if (selectedDirectory != null) {
+            currentRootDirectory = selectedDirectory;
+            updateLocalTable(selectedDirectory);
+            isLocalDirChoosed = true;
+            chooseLocalDirArea.setManaged(false);
+            chooseLocalDirArea.setVisible(false);
+            localTableArea.setManaged(true);
+            localTableArea.setVisible(true);
+            if (isAuthorized) {
+                transferBtnArea.setVisible(true);
+                transferBtnArea.setManaged(true);
+            }
+        }
     }
 
     public void btnDeleteLocalFile() {

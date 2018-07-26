@@ -18,20 +18,26 @@ public class ClientFileSender {
         this.currentBytePosition = 0;
     }
 
-    public void sendFile() throws Exception {
-        FileInputStream fis = new FileInputStream(file);
-        byte[] filePart = new byte[FILE_PART_SIZE];
-        int len;
-        while ((len = fis.read(filePart)) != -1) {
-            if (len < filePart.length) {
-                byte[] out = Arrays.copyOf(filePart, len);
-                ConnectionHandler.getInstance().sendData(new FileMessage(file.getName(), currentBytePosition, out));
-            } else {
-                ConnectionHandler.getInstance().sendData(new FileMessage(file.getName(), currentBytePosition, filePart));
-                currentBytePosition += FILE_PART_SIZE;
-                filePart = new byte[FILE_PART_SIZE];
+    public void sendFile() {
+        new Thread(() -> {
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                byte[] filePart = new byte[FILE_PART_SIZE];
+                int len;
+                while ((len = fis.read(filePart)) != -1) {
+                    if (len < filePart.length) {
+                        byte[] out = Arrays.copyOf(filePart, len);
+                        ConnectionHandler.getInstance().sendData(new FileMessage(file.getName(), currentBytePosition, out));
+                    } else {
+                        ConnectionHandler.getInstance().sendData(new FileMessage(file.getName(), currentBytePosition, filePart));
+                        currentBytePosition += FILE_PART_SIZE;
+                        filePart = new byte[FILE_PART_SIZE];
+                    }
+                }
+                fis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
-        fis.close();
+        }).start();
     }
 }

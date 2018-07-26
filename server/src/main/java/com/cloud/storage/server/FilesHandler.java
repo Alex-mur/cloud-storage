@@ -34,6 +34,10 @@ public class FilesHandler {
         return isExist;
     }
 
+    public static long getFileLength(String path, String name) {
+        return (new File(path + "\\" + name)).length();
+    }
+
     public static boolean deleteFile(String path, String name) {
         return (new File(path + "//" + name)).delete();
     }
