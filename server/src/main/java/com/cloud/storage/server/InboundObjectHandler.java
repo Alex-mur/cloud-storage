@@ -7,13 +7,16 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
 
     private String userLogin;
     private String userDir;
-    private ArrayList<FileReceiver> receiveQueue;
+    private ConcurrentHashMap<String, FileReceiver> receiveQueue;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -30,13 +33,13 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
                 String command = ((CommandMessage) msg).getCommand();
 
                 if (command.equals(CommandMessage.GET_FILE_LIST)) {
-                    ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));
+                    ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir), FilesHandler.getAvailableSize(userDir)));
                     ctx.flush();
                 }
 
                 if (command.equals(CommandMessage.RENAME_FILE_REQUEST)) {
                     if (FilesHandler.renameFile(userDir, ((CommandMessage) msg).getLogin(), ((CommandMessage) msg).getPassword())) {
-                        ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));
+                        ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir), FilesHandler.getAvailableSize(userDir)));
                         ctx.write(new CommandMessage(CommandMessage.MESSAGE, "File renamed: " + ((CommandMessage) msg).getLogin() + "->" + ((CommandMessage) msg).getPassword()));
                         ctx.flush();
                     } else {
@@ -47,7 +50,7 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
 
                 if (command.equals(CommandMessage.DELETE_FILE_REQUEST)) {
                     if (FilesHandler.deleteFile(userDir, ((CommandMessage) msg).getText())) {
-                        ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));
+                        ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir), FilesHandler.getAvailableSize(userDir)));
                         ctx.write(new CommandMessage(CommandMessage.MESSAGE, "File deleted: " + ((CommandMessage) msg).getText()));
                         ctx.flush();
 
@@ -65,25 +68,22 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
                         ctx.write(new CommandMessage(CommandMessage.SEND_FILE_DECLINE_SPACE, ((CommandMessage) msg).getFileName()));
                         ctx.flush();
                     } else {
-                        receiveQueue.add(new FileReceiver(userDir, ((CommandMessage) msg).getFileName(), ((CommandMessage) msg).getFileSize()));
+                        receiveQueue.put(((CommandMessage) msg).getFileName(), new FileReceiver(userDir, ((CommandMessage) msg).getFileName(), ((CommandMessage) msg).getFileSize()));
                         ctx.write(new CommandMessage(CommandMessage.SEND_FILE_CONFIRM, ((CommandMessage) msg).getFileName()));
-                        ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));
+                        ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir), FilesHandler.getAvailableSize(userDir)));
                         ctx.flush();
                     }
                 }
             }
 
             if (msg instanceof FileMessage) {
-                System.out.println("get file message");
-                for (int i = 0; i < receiveQueue.size(); i++) {
-                    if (receiveQueue.get(i).getFinalFileName().equals(((FileMessage) msg).getName())) {
-                        if (receiveQueue.get(i).receiveFile((FileMessage) msg)) {
-                            receiveQueue.remove(i);
-                            ctx.write(new CommandMessage(CommandMessage.MESSAGE, "File received: " + ((FileMessage) msg).getName()));
-                            ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));
-                            ctx.flush();
-                        }
-                        break;
+                FileReceiver fr = receiveQueue.get(((FileMessage) msg).getName());
+                if (fr != null) {
+                    if (fr.receiveFile((FileMessage) msg)) {
+                        receiveQueue.remove(((FileMessage) msg).getName());
+                        ctx.write(new CommandMessage(CommandMessage.MESSAGE, "File received: " + ((FileMessage) msg).getName()));
+                        ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir), FilesHandler.getAvailableSize(userDir)));
+                        ctx.flush();
                     }
                 }
             }
@@ -107,7 +107,7 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
 
     public InboundObjectHandler(String userLogin) {
         this.userLogin = userLogin;
-        this.receiveQueue = new ArrayList<>();
+        this.receiveQueue = new ConcurrentHashMap<>();
         userDir = SQLHandler.getUserFolderByLogin(userLogin);
         System.out.println("InboundObjectHandler  init. User: " + userLogin + " Dir: " + userDir);
     }

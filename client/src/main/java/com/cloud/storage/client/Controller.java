@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
@@ -39,6 +40,8 @@ public class Controller implements Initializable {
     public VBox localTableArea;
     public ProgressBar pBar;
     public VBox logArea;
+    public Text localSpaceValue;
+    public Text remoteSpaceValue;
 
     private boolean isAuthorized;
     private boolean isConnected;
@@ -163,7 +166,7 @@ public class Controller implements Initializable {
                         if (command.equals(CommandMessage.GET_FILE_LIST)) {
                             Platform.runLater(() -> {
                                 writeToLogArea("Remote filesList received");
-                                updateRemoteTable(((CommandMessage) msg).getFileList());
+                                updateRemoteTable(((CommandMessage) msg).getFileList(), ((CommandMessage) msg).getAvailableSpace());
                             });
                         }
 
@@ -327,15 +330,17 @@ public class Controller implements Initializable {
         }
 
         localTable.setItems(localFileList);
+        localSpaceValue.setText(String.valueOf(folder.getFreeSpace() / 1024) + "(KB)");
     }
 
-    public void updateRemoteTable(ArrayList<String[]> files) {
+    public void updateRemoteTable(ArrayList<String[]> files, long availableSpace) {
         remoteFileList = FXCollections.observableArrayList();
         for(int i = 0; i < files.size(); i++) {
             remoteFileList.add(new RemoteFileListItem(files.get(i)[0], Long.parseLong(files.get(i)[1])));
         }
 
         remoteTable.setItems(remoteFileList);
+        remoteSpaceValue.setText(String.valueOf(availableSpace / 1024) + "(KB)");
     }
 
     public void requestRemoteFileList() {

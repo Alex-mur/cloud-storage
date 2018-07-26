@@ -38,6 +38,10 @@
                     </HBox>
                     <TableView fx:id="localTable" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                     </TableView>
+                    <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+                        <Text fx:id="localSpaceDesc" textAlignment="RIGHT" HBox.hgrow="ALWAYS" text="Space available: "/>
+                        <Text fx:id="localSpaceValue" textAlignment="LEFT" HBox.hgrow="ALWAYS" text="unknown"/>
+                    </HBox>
                 </VBox>
             </VBox>
 
@@ -117,6 +121,10 @@
                     </HBox>
                     <TableView fx:id="remoteTable" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                     </TableView>
+                    <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+                        <Text fx:id="remoteSpaceDesc" textAlignment="RIGHT" HBox.hgrow="ALWAYS" text="Space available: "/>
+                        <Text fx:id="remoteSpaceValue" textAlignment="LEFT" HBox.hgrow="ALWAYS" text="unknown"/>
+                    </HBox>
                 </VBox>
             </VBox>
         </HBox>

@@ -30,11 +30,13 @@ public class CommandMessage implements Serializable {
     private ArrayList<String[]> fileList;
     private String fileName;
     private Long fileSize;
+    private long availableSpace;
 
 
-    public CommandMessage(String command, ArrayList<String[]> fileList) {
+    public CommandMessage(String command, ArrayList<String[]> fileList, long availableSpace) {
         this.command = command;
         this.fileList = fileList;
+        this.availableSpace = availableSpace;
     }
 
     public CommandMessage(String command, String fileName, long fileSize) {
@@ -84,5 +86,9 @@ public class CommandMessage implements Serializable {
 
     public Long getFileSize() {
         return fileSize;
+    }
+
+    public long getAvailableSpace() {
+        return availableSpace;
     }
 }
