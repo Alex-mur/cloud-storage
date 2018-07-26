@@ -2,21 +2,18 @@ package com.cloud.storage.server;
 
 import com.cloud.storage.common.CommandMessage;
 import com.cloud.storage.common.FileMessage;
-import com.cloud.storage.common.FileReceiver;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
 
     private String userLogin;
     private String userDir;
-    private ConcurrentHashMap<String, FileReceiver> receiveQueue;
+    private ConcurrentHashMap<String, ServerFileReceiver> receiveQueue;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -68,8 +65,8 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
                         ctx.write(new CommandMessage(CommandMessage.SEND_FILE_DECLINE_SPACE, ((CommandMessage) msg).getFileName()));
                         ctx.flush();
                     } else {
-                        receiveQueue.put(((CommandMessage) msg).getFileName(), new FileReceiver(userDir, ((CommandMessage) msg).getFileName(), ((CommandMessage) msg).getFileSize()));
-                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_CONFIRM, ((CommandMessage) msg).getFileName()));
+                        receiveQueue.put(((CommandMessage) msg).getFileName(), new ServerFileReceiver(userDir, ((CommandMessage) msg).getFileName(), ((CommandMessage) msg).getFileSize()));
+                        ctx.write(new CommandMessage(CommandMessage.SEND_FILE_CONFIRM, ((CommandMessage) msg).getFileName(), ((CommandMessage) msg).getFileSize()));
                         ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir), FilesHandler.getAvailableSize(userDir)));
                         ctx.flush();
                     }
@@ -91,7 +88,7 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
             }
 
             if (msg instanceof FileMessage) {
-                FileReceiver fr = receiveQueue.get(((FileMessage) msg).getName());
+                ServerFileReceiver fr = receiveQueue.get(((FileMessage) msg).getName());
                 if (fr != null) {
                     boolean isFinished = fr.receiveFile((FileMessage) msg);
 

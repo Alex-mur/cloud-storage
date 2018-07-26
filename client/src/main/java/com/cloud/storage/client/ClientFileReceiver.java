@@ -1,18 +1,20 @@
-package com.cloud.storage.common;
+package com.cloud.storage.client;
+
+import com.cloud.storage.common.FileMessage;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class FileReceiver {
+public class ClientFileReceiver {
     private String finalFileName;
     private long finalFileLength;
     private File tempFile;
     private ConcurrentHashMap<Long, FileMessage> msgBuffer;
     private FileOutputStream fos;
 
-    public FileReceiver(String path, String name, long finalFileLength) throws IOException {
+    public ClientFileReceiver(String path, String name, long finalFileLength) throws IOException {
         tempFile = new File(path + "\\" + name + ".partial");
         tempFile.createNewFile();
         this.finalFileName = name;
@@ -31,7 +33,7 @@ public class FileReceiver {
 
         if (tempFile.length() == msg.getStartByte()) {
             fos.write(msg.getData());
-        } else if (msg.getStartByte() > tempFile.length()) {
+        } else if(msg.getStartByte() > tempFile.length()) {
             msgBuffer.put(msg.getStartByte(), msg);
         }
 
