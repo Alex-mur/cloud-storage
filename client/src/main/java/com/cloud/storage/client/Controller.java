@@ -352,11 +352,25 @@ public class Controller implements Initializable {
     }
 
     public void requestFileSending(File file) {
-        writeToLogArea("Reqest sending file:  " + file.getAbsolutePath());
+        writeToLogArea("Request sending file:  " + file.getAbsolutePath());
         try {
             ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.SEND_FILE_REQUEST, file.getName(), file.length()));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void requestFile(String name, long fileSize) {
+        writeToLogArea("Requesting file from server: " + name);
+        if (fileSize < (currentRootDirectory.getFreeSpace() + 2000000)) {
+            try {
+                ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.RECEIVE_FILE_REQUEST, name));
+            } catch (IOException e) {
+                e.printStackTrace();
+                writeToLogArea(e.getMessage());
+            }
+        } else {
+            writeToLogArea("Not enough space in local storage");
         }
     }
 
