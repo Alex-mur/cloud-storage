@@ -18,6 +18,8 @@ public class CommandMessage implements Serializable {
     public static final String SEND_FILE_CONFIRM = "359637355478568";
     public static final String SEND_FILE_DECLINE_EXIST = "335875769863965";
     public static final String SEND_FILE_DECLINE_SPACE = "345654632314453";
+    public static final String DELETE_FILE_REQUEST = "676653248734576532";
+    public static final String RENAME_FILE_REQUEST = "701883784759967756";
     public static final String MESSAGE = "9949495653775";
 
 

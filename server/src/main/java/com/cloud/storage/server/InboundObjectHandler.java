@@ -2,6 +2,7 @@ package com.cloud.storage.server;
 
 import com.cloud.storage.common.CommandMessage;
 import com.cloud.storage.common.FileMessage;
+import com.cloud.storage.common.FileReceiver;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
@@ -33,6 +34,29 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
                     ctx.flush();
                 }
 
+                if (command.equals(CommandMessage.RENAME_FILE_REQUEST)) {
+                    if (FilesHandler.renameFile(userDir, ((CommandMessage) msg).getLogin(), ((CommandMessage) msg).getPassword())) {
+                        ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));
+                        ctx.write(new CommandMessage(CommandMessage.MESSAGE, "File renamed: " + ((CommandMessage) msg).getLogin() + "->" + ((CommandMessage) msg).getPassword()));
+                        ctx.flush();
+                    } else {
+                        ctx.write(new CommandMessage(CommandMessage.MESSAGE, "Cannot rename file: " + ((CommandMessage) msg).getLogin()));
+                        ctx.flush();
+                    }
+                }
+
+                if (command.equals(CommandMessage.DELETE_FILE_REQUEST)) {
+                    if (FilesHandler.deleteFile(userDir, ((CommandMessage) msg).getText())) {
+                        ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));
+                        ctx.write(new CommandMessage(CommandMessage.MESSAGE, "File deleted: " + ((CommandMessage) msg).getText()));
+                        ctx.flush();
+
+                    } else {
+                        ctx.write(new CommandMessage(CommandMessage.MESSAGE, "Cannot delete file: " + ((CommandMessage) msg).getText()) + " Try again later.");
+                        ctx.flush();
+                    }
+                }
+
                 if (command.equals(CommandMessage.SEND_FILE_REQUEST)) {
                     if (FilesHandler.isFileExist(userDir, ((CommandMessage) msg).getFileName())) {
                         ctx.write(new CommandMessage(CommandMessage.SEND_FILE_DECLINE_EXIST, ((CommandMessage) msg).getFileName()));
@@ -41,7 +65,6 @@ public class InboundObjectHandler extends ChannelInboundHandlerAdapter {
                         ctx.write(new CommandMessage(CommandMessage.SEND_FILE_DECLINE_SPACE, ((CommandMessage) msg).getFileName()));
                         ctx.flush();
                     } else {
-//                        FilesHandler.createTempFile(userDir, ((CommandMessage) msg).getFileName());
                         receiveQueue.add(new FileReceiver(userDir, ((CommandMessage) msg).getFileName(), ((CommandMessage) msg).getFileSize()));
                         ctx.write(new CommandMessage(CommandMessage.SEND_FILE_CONFIRM, ((CommandMessage) msg).getFileName()));
                         ctx.write(new CommandMessage(CommandMessage.GET_FILE_LIST, FilesHandler.listDirectory(userDir)));

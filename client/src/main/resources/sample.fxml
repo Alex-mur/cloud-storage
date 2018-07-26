@@ -27,6 +27,11 @@
                 <VBox fx:id="localTableArea" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                     <HBox fx:id="localControlPanel" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                         <Button fx:id="btnChangeLocalDir" onAction="#btnChangeDirClick" text="Browse..." />
+                        <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                            <Button fx:id="btnRefreshLocal" onAction="#btnRefreshLocal" text="Refresh"/>
+                            <Button fx:id="btnRenameLocalFile" onAction="#btnRenameLocalFile" text="Rename" />
+                            <Button fx:id="btnDeleteLocalFile" onAction="#btnDeleteLocalFile" text="Delete" />
+                        </HBox>
                         <VBox.margin>
                             <Insets top="10.0" />
                         </VBox.margin>
@@ -100,7 +105,11 @@
                 </VBox>
                 <VBox fx:id="remoteTableArea" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                     <HBox fx:id="remoteControlPanel" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                        <Button fx:id="btnRefreshRemote" onAction="#btnRefreshRemote" text="Refresh" />
+                        <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                            <Button fx:id="btnDeleteRemoteFile" onAction="#btnDeleteRemoteFile" text="Delete" />
+                            <Button fx:id="btnRenameRemoteFile" onAction="#btnRenameRemoteFile" text="Rename" />
+                            <Button fx:id="btnRefreshRemote" onAction="#btnRefreshRemote" text="Refresh" />
+                        </HBox>
                         <Button fx:id="btnLogout" onAction="#btnLogoutClick" text="Logout" />
                         <VBox.margin>
                             <Insets top="10.0" />

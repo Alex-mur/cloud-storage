@@ -1,4 +1,4 @@
-package com.cloud.storage.server;
+package com.cloud.storage.common;
 
 
 import com.cloud.storage.common.FileMessage;
@@ -53,7 +53,7 @@ public class FileReceiver {
             }
         }
 
-        if (tempFile.length() >= finalFileLength) {
+        if (tempFile.length() == finalFileLength) {
             fos.close();
             tempFile.renameTo(new File(tempFile.getAbsolutePath().replace(".partial", "")));
             return true;

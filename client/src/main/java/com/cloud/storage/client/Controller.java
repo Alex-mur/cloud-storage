@@ -5,7 +5,6 @@ import com.cloud.storage.common.FileMessage;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,6 +18,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -44,7 +44,7 @@ public class Controller implements Initializable {
     private boolean isConnected;
     private boolean isLocalDirChoosed;
     private File currentRootDirectory;
-    private ArrayList<FileSender> sendQueue;
+    private ArrayList<ClientFileSender> sendQueue;
     ObservableList<LocalFileListItem> localFileList;
     ObservableList<RemoteFileListItem> remoteFileList;
     Thread connectionListenerThread;
@@ -185,7 +185,7 @@ public class Controller implements Initializable {
                         }
 
                         if (command.equals(CommandMessage.SEND_FILE_CONFIRM)) {
-                            FileSender fs = new FileSender(new File(currentRootDirectory + "\\" + ((CommandMessage) msg).getText()));
+                            ClientFileSender fs = new ClientFileSender(new File(currentRootDirectory + "\\" + ((CommandMessage) msg).getText()));
                             sendQueue.add(fs);
                             fs.sendFile();
 
@@ -355,6 +355,22 @@ public class Controller implements Initializable {
         }
     }
 
+    public void requestRemoteFileDelete(String fileName) {
+        try {
+            ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.DELETE_FILE_REQUEST, fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void requestRemoteFileRename(String oldFileName, String newFileName) {
+        try {
+            ConnectionHandler.getInstance().sendData(new CommandMessage(CommandMessage.RENAME_FILE_REQUEST, oldFileName, newFileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void btnSendClick() {
         LocalFileListItem fileItem = (LocalFileListItem) localTable.getSelectionModel().getSelectedItem();
         requestFileSending(new File(fileItem.getPath()));
@@ -363,7 +379,54 @@ public class Controller implements Initializable {
     public void btnReceiveClick() {
     }
 
-    public void btnRefreshRemote(ActionEvent actionEvent) {
+    public void btnRefreshRemote() {
         requestRemoteFileList();
+    }
+
+    public void btnRefreshLocal() {
+        updateLocalTable(currentRootDirectory);
+    }
+
+    public void btnDeleteLocalFile() {
+        LocalFileListItem fileItem = (LocalFileListItem) localTable.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete file " + fileItem.getName(), ButtonType.OK, ButtonType.CANCEL);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get().getText().equals("OK")) {
+            (new File(fileItem.getPath())).delete();
+            updateLocalTable(currentRootDirectory);
+            writeToLogArea("File " + fileItem.getName() + " was deleted");
+        }
+    }
+
+    public void btnRenameLocalFile() {
+        LocalFileListItem fileItem = (LocalFileListItem) localTable.getSelectionModel().getSelectedItem();
+        TextInputDialog textInputDialog = new TextInputDialog(fileItem.getName());
+        textInputDialog.setTitle("Rename file");
+        textInputDialog.setHeaderText("Enter new name:");
+        Optional<String> result = textInputDialog.showAndWait();
+        if (result.isPresent() && !result.get().equals(fileItem.getName())) {
+            (new File(fileItem.getPath())).renameTo(new File(currentRootDirectory + "\\" + result.get()));
+            updateLocalTable(currentRootDirectory);
+        }
+    }
+
+    public void btnRenameRemoteFile() {
+        RemoteFileListItem fileItem = (RemoteFileListItem) remoteTable.getSelectionModel().getSelectedItem();
+        TextInputDialog textInputDialog = new TextInputDialog(fileItem.getName());
+        textInputDialog.setTitle("Rename file");
+        textInputDialog.setHeaderText("Enter new name:");
+        Optional<String> result = textInputDialog.showAndWait();
+        if (result.isPresent() && !result.get().equals(fileItem.getName())) {
+            requestRemoteFileRename(fileItem.getName(), result.get());
+        }
+    }
+
+    public void btnDeleteRemoteFile() {
+        RemoteFileListItem fileItem = (RemoteFileListItem) remoteTable.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete file " + fileItem.getName(), ButtonType.OK, ButtonType.CANCEL);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get().getText().equals("OK")) {
+            requestRemoteFileDelete(fileItem.getName());
+        }
     }
 }

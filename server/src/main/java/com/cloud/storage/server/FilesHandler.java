@@ -33,4 +33,12 @@ public class FilesHandler {
 
         return isExist;
     }
+
+    public static boolean deleteFile(String path, String name) {
+        return (new File(path + "//" + name)).delete();
+    }
+
+    public static boolean renameFile(String path, String name, String newName) {
+        return (new File(path + "\\" + name)).renameTo(new File(path + "\\" + newName));
+    }
 }
