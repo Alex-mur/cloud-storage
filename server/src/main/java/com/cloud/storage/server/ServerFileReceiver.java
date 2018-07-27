@@ -24,11 +24,13 @@ public class ServerFileReceiver {
     }
 
     public boolean receiveFile(FileMessage msg) throws IOException {
-        if (!msgBuffer.isEmpty()) {
-            FileMessage fm = msgBuffer.get(tempFile.length());
+        while (!msgBuffer.isEmpty()) {
+            long length = tempFile.length();
+            FileMessage fm = msgBuffer.get(length);
             if (fm != null) {
                 fos.write(fm.getData());
-            }
+                msgBuffer.remove(length);
+            } else break;
         }
 
         if (tempFile.length() == msg.getStartByte()) {
