@@ -1,0 +1,1336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="095308ba-b46b-43b1-b314-6e4c5df24482" name="Default" comment="" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/server/target/" />
+    <ignored path="$PROJECT_DIR$/common/target/" />
+    <ignored path="$PROJECT_DIR$/client/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="CloudServer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/CloudServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FilesHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/FilesHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="462">
+              <caret line="48" lean-forward="true" selection-start-line="6" selection-end-line="48" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InboundAuthHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/InboundAuthHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1326">
+              <caret line="81" lean-forward="true" selection-start-line="8" selection-end-line="81" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#exceptionCaught#0;class#InboundAuthHandler#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerFileSender.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/ServerFileSender.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="31" lean-forward="true" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SettingsMgmt.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/SettingsMgmt.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SQLHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/SQLHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="840">
+              <caret line="59" column="21" selection-start-line="59" selection-start-column="21" selection-end-line="59" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InboundObjectHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/InboundObjectHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="462">
+              <caret line="127" lean-forward="true" selection-start-line="11" selection-end-line="127" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#channelActive#0;class#InboundObjectHandler#0" />
+                <element signature="method#exceptionCaught#0;class#InboundObjectHandler#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerFileReceiver.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/ServerFileReceiver.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CommandMessage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/CommandMessage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#CommandMessage#1;class#CommandMessage#0" />
+                <element signature="method#CommandMessage#2;class#CommandMessage#0" />
+                <element signature="method#CommandMessage#4;class#CommandMessage#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FileMessage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/FileMessage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+              <folding>
+                <element signature="e#385#386#0" expanded="true" />
+                <element signature="e#412#413#0" expanded="true" />
+                <element signature="e#446#447#0" expanded="true" />
+                <element signature="e#478#479#0" expanded="true" />
+                <element signature="e#509#510#0" expanded="true" />
+                <element signature="e#536#537#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Singleton" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>localListArea</find>
+      <find>remoteListArea</find>
+      <find>@FXML</find>
+      <find>userFolder</find>
+      <find>LocalFileListItem</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>localTableArea</replace>
+      <replace>remoteTableArea</replace>
+      <replace>userDirPath</replace>
+      <replace>RemoteFileListItem</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="modificationStamps">
+      <map>
+        <entry key="$PROJECT_DIR$/../2d-rpg-first-part" value="6054820064897" />
+        <entry key="$PROJECT_DIR$/../ATetris" value="5920405154102" />
+        <entry key="$PROJECT_DIR$/../BomberGame" value="6105623560259" />
+        <entry key="$PROJECT_DIR$/../ClientGDX" value="5947533929078" />
+        <entry key="$PROJECT_DIR$/../DT/LibGDX Projects/Heroes" value="5841897094998" />
+        <entry key="$PROJECT_DIR$/../DT/LibGDX Projects/StarCommXI" value="5940114826060" />
+        <entry key="$PROJECT_DIR$/../DT/LibGDX Projects/TanksGDX" value="5995938674882" />
+        <entry key="$PROJECT_DIR$/../DT/LibGDX Projects/WebTanks" value="5991158359233" />
+        <entry key="$PROJECT_DIR$/../EvolutionGame" value="6107005634386" />
+        <entry key="$PROJECT_DIR$/../GeekRunner" value="6043061916952" />
+        <entry key="$PROJECT_DIR$/../Heroes" value="5841897094998" />
+        <entry key="$PROJECT_DIR$/../JavaGDX" value="6033734709282" />
+        <entry key="$PROJECT_DIR$/../JavaTestLibGDX" value="6053433017037" />
+        <entry key="$PROJECT_DIR$/../JavaTowerDefense" value="6093534678664" />
+        <entry key="$PROJECT_DIR$/../LGDX" value="6091103035671" />
+        <entry key="$PROJECT_DIR$/../LgdxDemo" value="6104581575950" />
+        <entry key="$PROJECT_DIR$/../LibGDX Projects/StarCommXI" value="5940114826060" />
+        <entry key="$PROJECT_DIR$/../LibGDXDemo" value="6104235024282" />
+        <entry key="$PROJECT_DIR$/../LibGDXLesson1" value="6079006769947" />
+        <entry key="$PROJECT_DIR$/../LibGDXProject" value="5990563169617" />
+        <entry key="$PROJECT_DIR$/../LibGDXT" value="6021294383115" />
+        <entry key="$PROJECT_DIR$/../LibGDXTest" value="5994334329655" />
+        <entry key="$PROJECT_DIR$/../LibGdxEx" value="6066566104356" />
+        <entry key="$PROJECT_DIR$/../LightProject" value="5875139264000" />
+        <entry key="$PROJECT_DIR$/../NewGame" value="5940804016000" />
+        <entry key="$PROJECT_DIR$/../PacManFirst" value="6080065137142" />
+        <entry key="$PROJECT_DIR$/../Pacman-master" value="6087255622255" />
+        <entry key="$PROJECT_DIR$/../PingPong" value="6037534164310" />
+        <entry key="$PROJECT_DIR$/../R-Type" value="5996451957121" />
+        <entry key="$PROJECT_DIR$/../RunnerGDX" value="6042976065137" />
+        <entry key="$PROJECT_DIR$/../SnowyNight" value="5922834191274" />
+        <entry key="$PROJECT_DIR$/../StarComm44" value="6041597037770" />
+        <entry key="$PROJECT_DIR$/../StarComm45" value="6044014197573" />
+        <entry key="$PROJECT_DIR$/../StarComm46" value="6046435321425" />
+        <entry key="$PROJECT_DIR$/../StarComm47" value="6051272271968" />
+        <entry key="$PROJECT_DIR$/../StarComm48" value="6053691246001" />
+        <entry key="$PROJECT_DIR$/../StarComm49" value="6056110635925" />
+        <entry key="$PROJECT_DIR$/../StarComm50" value="6063367711179" />
+        <entry key="$PROJECT_DIR$/../StarComm51" value="6065787278288" />
+        <entry key="$PROJECT_DIR$/../StarComm52" value="6068205851123" />
+        <entry key="$PROJECT_DIR$/../StarComm53" value="6073044970050" />
+        <entry key="$PROJECT_DIR$/../StarComm54" value="6075465388328" />
+        <entry key="$PROJECT_DIR$/../StarComm55" value="6077883721443" />
+        <entry key="$PROJECT_DIR$/../StarComm56" value="6080274772229" />
+        <entry key="$PROJECT_DIR$/../StarCommII" value="5913725766221" />
+        <entry key="$PROJECT_DIR$/../StarCommIV" value="5918575863714" />
+        <entry key="$PROJECT_DIR$/../StarCommX1" value="6090009385176" />
+        <entry key="$PROJECT_DIR$/../StarCommX2" value="6092371094368" />
+        <entry key="$PROJECT_DIR$/../StarCommX3" value="6094789178296" />
+        <entry key="$PROJECT_DIR$/../StarCommX4" value="6097208469786" />
+        <entry key="$PROJECT_DIR$/../StarCommX5" value="6104466285368" />
+        <entry key="$PROJECT_DIR$/../StarCommXI" value="5940114826060" />
+        <entry key="$PROJECT_DIR$/../StarComms/StarComm56" value="6080274772229" />
+        <entry key="$PROJECT_DIR$/../StarComms/StarComm57" value="6082693546268" />
+        <entry key="$PROJECT_DIR$/../StarGame" value="5984885846225" />
+        <entry key="$PROJECT_DIR$/../TanksGame" value="6068984545311" />
+        <entry key="$PROJECT_DIR$/../WebTanks" value="5991158359233" />
+        <entry key="$PROJECT_DIR$/../gdx-texture-packer-gui-master" value="5982896994031" />
+        <entry key="$PROJECT_DIR$/../gdxtest" value="5982602078792" />
+        <entry key="$PROJECT_DIR$/../geek-rpg-game" value="6037552241892" />
+        <entry key="$PROJECT_DIR$/../libGDXprogect" value="5993208261497" />
+        <entry key="$PROJECT_DIR$/../runner" value="6042903618990" />
+        <entry key="$PROJECT_DIR$/../spring4-mvc-gradle-xml" value="1433333304000" />
+        <entry key="E:/Users/FlameXander/Desktop/0xFF/StarCommXI" value="5940114826060" />
+      </map>
+    </option>
+    <option name="projectSyncType">
+      <map>
+        <entry key="$PROJECT_DIR$/../ChronoTanks" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../EvolutionGame_0" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/client/src/main/java/sample.fxml" />
+        <option value="$PROJECT_DIR$/server/src/main/java/ServerMainClass.java" />
+        <option value="$PROJECT_DIR$/server/pom.xml" />
+        <option value="$PROJECT_DIR$/client/pom.xml" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/ServerMainClass.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/Message.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/SendMessage.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/TransferMgmt.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/ClientHandler.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/Client.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/DiscardServerHandler.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/Message.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/ObjectHandlerIn.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/InboundDeserializeMsg.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/InboundObjectDecoder.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/FilesManagement.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/FileItem.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/AbstractMessage.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/UserSettings.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/FileListItem.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/FileListItem.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/SQLHandler.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/CloudServer.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/InboundAuthHandler.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/RemoteFileListItem.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/SettingsMgmt.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/FilesHandler.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/FileMessage.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/ConnectionHandler.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/FileReceiver.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/Main.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/FileSender.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/CommandMessage.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/FilesHandler.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/FileReceiver.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/ContainerClient.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/InboundObjectHandler.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/ClientFileSender.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/Controller.java" />
+        <option value="$PROJECT_DIR$/client/src/main/resources/sample.fxml" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/ServerFileSender.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/ServerFileReceiver.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/ClientFileReceiver.java" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="cloud-storage" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="cloud-storage" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Dependencies" type="f4be9f2a:MavenProjectsStructure$DependenciesNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-7" />
+    <option name="y" value="65" />
+    <option name="width" value="1246" />
+    <option name="height" value="812" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <autoscrollFromSource ProjectPane="true" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="AndroidView" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-storage" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-storage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/ServerFileSender.java" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/ServerFileSender.java" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\FlameXander\Desktop\cloud-storage\client\src\main\java" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.cloud.storage.client" />
+      <recent name="com.cloud.storage.server" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\FlameXander\Desktop\cloud-storage\client\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.CloudClient">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HEIGHT" value="0" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="WIDTH" value="0" />
+    </configuration>
+    <configuration name="CloudClient" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.cloud.storage.client.Main" />
+      <module name="client" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cloud.storage.client.Controller" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration name="CloudServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.cloud.storage.server.CloudServer" />
+      <module name="server" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cloud.storage.common.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <properties />
+      <listeners />
+    </configuration>
+    <list>
+      <item itemvalue="Application.CloudClient" />
+      <item itemvalue="Application.CloudServer" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.CloudClient" />
+        <item itemvalue="Application.CloudServer" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="095308ba-b46b-43b1-b314-6e4c5df24482" name="Default" comment="" />
+      <created>1530729068863</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1530729068863</updated>
+    </task>
+    <task id="LOCAL-00001" summary="first commit. this is project from lesson 1">
+      <created>1530907806435</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1530907806435</updated>
+    </task>
+    <task id="LOCAL-00002" summary="mass changes in client interface">
+      <created>1531349022272</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1531349022272</updated>
+    </task>
+    <task id="LOCAL-00003" summary="working on form">
+      <created>1531560884091</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1531560884091</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add class for settings">
+      <created>1531561612368</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1531561612368</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add class for settings">
+      <created>1531566280435</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1531566280435</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add buttons for choosing local directory">
+      <created>1531658524975</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1531658524975</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add logout button. add progressBar. some other improovements in UI. Created connectionHandler class.">
+      <created>1531686404439</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1531686404439</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add connection logging">
+      <created>1531689236842</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1531689236842</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Create Encoding and Decoding handlers on server side. Dend messages ok.">
+      <created>1531753215061</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1531753215062</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Creating local and remote tables. List directories and fill local table">
+      <created>1531771456272</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1531771456272</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Add select local directory dialog">
+      <created>1531775924696</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1531775924696</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Add auth handler to server">
+      <created>1531778417370</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1531778417370</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Text send file path as string">
+      <created>1531778844381</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1531778844381</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Client Listen inbound in a new thread. Setup command messages">
+      <created>1531860213550</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1531860213550</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Working on connection and netty handlers">
+      <created>1531862532286</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1531862532286</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Create sql management">
+      <created>1531863901038</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1531863901038</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Create sql user authorization and registration. Creatinf folder on register">
+      <created>1531867865350</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1531867865350</updated>
+    </task>
+    <task id="LOCAL-00018" summary="add db to git">
+      <created>1531867903270</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1531867903270</updated>
+    </task>
+    <task id="LOCAL-00019" summary="change Calendar to LocalDateTime. Fix commandListener thread  starting end stopping.">
+      <created>1532512298578</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1532512298578</updated>
+    </task>
+    <task id="LOCAL-00020" summary="working on file sending">
+      <created>1532521773921</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1532521773921</updated>
+    </task>
+    <task id="LOCAL-00021" summary="File sending from client to server finished">
+      <created>1532536186992</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1532536186992</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Fix length in file sending. Trim las part to actual size">
+      <created>1532602096397</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1532602096397</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Change receiver files collections to concurrentHashMap">
+      <created>1532606822354</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1532606822354</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Run file sending in another thread">
+      <created>1532608856402</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1532608856402</updated>
+    </task>
+    <task id="LOCAL-00025" summary="working on progressBar">
+      <created>1532634398977</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1532634398977</updated>
+    </task>
+    <task id="LOCAL-00026" summary="block buttons on client while transferring">
+      <created>1532645551703</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1532645551703</updated>
+    </task>
+    <task id="LOCAL-00027" summary="minor changes in file receivers and senders">
+      <created>1532727208035</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1532727208035</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-4" y="-4" width="1288" height="764" extended-state="6" />
+    <layout>
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3296875" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.2203125" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.3296875" />
+      <window_info anchor="right" id="Maven Projects" order="3" weight="0.32875606" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.21875" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.15625" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3296875" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="2" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22374798" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24959612" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Statistic" order="8" weight="0.18043478" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.3296875" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="mass changes in client interface" />
+    <MESSAGE value="working on form" />
+    <MESSAGE value="add class for settings" />
+    <MESSAGE value="add buttons for choosing local directory" />
+    <MESSAGE value="add logout button. add progressBar. some other improovements in UI. Created connectionHandler class." />
+    <MESSAGE value="add connection logging" />
+    <MESSAGE value="Create Encoding and Decoding handlers on server side. Dend messages ok." />
+    <MESSAGE value="Creating local and remote tables. List directories and fill local table" />
+    <MESSAGE value="Add select local directory dialog" />
+    <MESSAGE value="Add auth handler to server" />
+    <MESSAGE value="Text send file path as string" />
+    <MESSAGE value="Client Listen inbound in a new thread. Setup command messages" />
+    <MESSAGE value="Working on connection and netty handlers" />
+    <MESSAGE value="Create sql management" />
+    <MESSAGE value="Create sql user authorization and registration. Creatinf folder on register" />
+    <MESSAGE value="add db to git" />
+    <MESSAGE value="change Calendar to LocalDateTime. Fix commandListener thread  starting end stopping." />
+    <MESSAGE value="working on file sending" />
+    <MESSAGE value="File sending from client to server finished" />
+    <MESSAGE value="Fix length in file sending. Trim las part to actual size" />
+    <MESSAGE value="Change receiver files collections to concurrentHashMap" />
+    <MESSAGE value="Run file sending in another thread" />
+    <MESSAGE value="working on progressBar" />
+    <MESSAGE value="block buttons on client while transferring" />
+    <MESSAGE value="minor changes in file receivers and senders" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes in file receivers and senders" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="18" />
+    </breakpoint-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/AuthHandler.java" />
+    <entry file="jar://$MAVEN_REPOSITORY$/io/netty/netty-all/4.1.25.Final/netty-all-4.1.25.Final.jar!/io/netty/handler/codec/MessageToByteEncoder.class" />
+    <entry file="jar://$MAVEN_REPOSITORY$/io/netty/netty-all/4.1.25.Final/netty-all-4.1.25.Final.jar!/io/netty/handler/codec/serialization/ObjectEncoder.class" />
+    <entry file="file://$PROJECT_DIR$/cloud-storage.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/client.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/io/File.java" />
+    <entry file="file://$PROJECT_DIR$/server/src/main/resources/users_folders/a/fsdf.txt" />
+    <entry file="file://$PROJECT_DIR$/server/src/main/resources/users_folders/a/sfdgg.avi" />
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/javafx-src.zip!/javafx/scene/control/TableView.java" />
+    <entry file="file://$PROJECT_DIR$/common/common.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/pom.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/UserSettings.java" />
+    <entry file="file://$PROJECT_DIR$/server/server.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/src.zip!/java/lang/Long.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="392" column="25" selection-start-line="392" selection-start-column="25" selection-end-line="392" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/control/TableColumn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="135" column="13" selection-start-line="135" selection-start-column="13" selection-end-line="135" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/control/TextInputDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="66" column="11" selection-start-line="66" selection-start-column="11" selection-end-line="66" selection-end-column="11" />
+          <folding>
+            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1435#1436#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/src.zip!/java/util/Optional.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="49" column="19" selection-start-line="49" selection-start-column="19" selection-end-line="49" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/src.zip!/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="1384" column="19" selection-start-line="1384" selection-start-column="19" selection-end-line="1384" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/src.zip!/java/io/FileInputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="231" column="15" selection-start-line="231" selection-start-column="15" selection-end-line="231" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/src.zip!/java/util/concurrent/ConcurrentHashMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="933" column="13" selection-start-line="933" selection-start-column="13" selection-end-line="933" selection-end-column="13" />
+          <folding>
+            <element signature="e#40959#40960#0" expanded="true" />
+            <element signature="e#41034#41035#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/main/main.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/control/ProgressBar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="78" column="11" selection-start-line="78" selection-start-column="11" selection-end-line="78" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/text/Text.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="113" column="11" selection-start-line="113" selection-start-column="11" selection-end-line="113" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/layout/Region.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15453">
+          <caret line="1000" column="22" selection-start-line="1000" selection-start-column="22" selection-end-line="1000" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/layout/Priority.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-21">
+          <caret line="34" column="12" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/layout/HBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="177" column="51" selection-start-line="177" selection-start-column="51" selection-end-line="177" selection-end-column="51" />
+          <folding>
+            <element signature="e#6875#6876#0" expanded="true" />
+            <element signature="e#6936#6937#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/javafx-src.zip!/javafx/geometry/Insets.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="77" column="11" selection-start-line="77" selection-start-column="11" selection-end-line="77" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/layout/Pane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="140" column="42" selection-start-line="140" selection-start-column="42" selection-end-line="140" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/control/ProgressIndicator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="161" column="22" selection-start-line="161" selection-start-column="22" selection-end-line="161" selection-end-column="22" />
+          <folding>
+            <element signature="e#5580#5581#0" expanded="true" />
+            <element signature="e#5625#5626#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/FileReceiver.java" />
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/ContainerClient.java" />
+    <entry file="file://$PROJECT_DIR$/client/src/main/resources/sample.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-19">
+          <caret line="10" column="33" lean-forward="true" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
+          <folding>
+            <element signature="n#VBox#0;n#HBox#0;n#VBox#0;n#VBox#0;n#!!top" />
+            <element signature="n#HBox#0;n#VBox#0;n#HBox#0;n#VBox#0;n#VBox#0;n#!!top" />
+            <element signature="n#HBox.margin#0;n#Text#0;n#HBox#0;n#VBox#0;n#HBox#0;n#VBox#0;n#VBox#0;n#!!top" />
+            <element signature="n#HBox#1;n#VBox#0;n#HBox#0;n#VBox#0;n#VBox#0;n#!!top" />
+            <element signature="n#VBox#0;n#VBox#0;n#HBox#0;n#VBox#0;n#VBox#0;n#!!top" />
+            <element signature="n#VBox#1;n#VBox#2;n#HBox#0;n#VBox#0;n#VBox#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="18" column="54" lean-forward="true" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3162">
+          <caret line="552" column="28" selection-start-line="30" selection-end-line="563" selection-end-column="1" />
+          <folding>
+            <element signature="e#2115#3462#0" />
+            <element signature="e#3007#3454#0" />
+            <element signature="e#3468#4020#0" />
+            <element signature="e#4026#4583#0" />
+            <element signature="e#4589#4973#0" />
+            <element signature="e#4979#5170#0" />
+            <element signature="e#5176#11250#0" />
+            <element signature="e#11256#11644#0" />
+            <element signature="e#11650#11930#0" />
+            <element signature="e#11936#12414#0" />
+            <element signature="e#12420#12595#0" />
+            <element signature="e#12601#12875#0" />
+            <element signature="e#12881#13172#0" />
+            <element signature="e#13178#13996#0" />
+            <element signature="e#14002#14833#0" />
+            <element signature="e#14839#15384#0" />
+            <element signature="e#15390#15830#0" />
+            <element signature="e#15836#16074#0" />
+            <element signature="e#16080#16435#0" />
+            <element signature="e#16441#17260#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/ConnectionHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#572#573#0" expanded="true" />
+            <element signature="e#631#632#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/ClientFileReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="50" column="1" lean-forward="true" selection-start-line="9" selection-end-line="50" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/ClientFileSender.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="25" column="16" lean-forward="true" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/LocalFileListItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/com/cloud/storage/client/RemoteFileListItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="e#470#471#0" expanded="true" />
+            <element signature="e#499#500#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/CommandMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#CommandMessage#1;class#CommandMessage#0" />
+            <element signature="method#CommandMessage#2;class#CommandMessage#0" />
+            <element signature="method#CommandMessage#4;class#CommandMessage#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/cloud/storage/common/FileMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+          <folding>
+            <element signature="e#385#386#0" expanded="true" />
+            <element signature="e#412#413#0" expanded="true" />
+            <element signature="e#446#447#0" expanded="true" />
+            <element signature="e#478#479#0" expanded="true" />
+            <element signature="e#509#510#0" expanded="true" />
+            <element signature="e#536#537#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/CloudServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/InboundAuthHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1326">
+          <caret line="81" lean-forward="true" selection-start-line="8" selection-end-line="81" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#exceptionCaught#0;class#InboundAuthHandler#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/InboundObjectHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="127" lean-forward="true" selection-start-line="11" selection-end-line="127" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#channelActive#0;class#InboundObjectHandler#0" />
+            <element signature="method#exceptionCaught#0;class#InboundObjectHandler#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/SettingsMgmt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/SQLHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="59" column="21" selection-start-line="59" selection-start-column="21" selection-end-line="59" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/FilesHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="48" lean-forward="true" selection-start-line="6" selection-end-line="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/ServerFileReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/com/cloud/storage/server/ServerFileSender.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="31" lean-forward="true" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>client</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: io.netty:netty-all:4.1.25.Final</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
